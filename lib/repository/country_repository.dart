@@ -23,7 +23,7 @@ class CountryRepository {
     Uri url = Uri.parse(ApiURL.countryWiseAreaLocationGetUrl);
     try {
       final response = await http.get(url,headers: RestApiStatus.headerMap);
-        print('bodyResponseCountryName code:' + response.statusCode.toString());
+        print('bodyResponseCountryArea code:' + response.statusCode.toString());
       return response;
     } on Exception catch (exception) {
       throw (exception);

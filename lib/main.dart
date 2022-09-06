@@ -4,6 +4,7 @@ import 'package:flutter_bus/route_generator.dart';
 
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'common/ctm_colors.dart';
 import 'common/ctm_strings.dart';
 import 'controllers/booking/dynamic_seat_plan_controller.dart';
 import 'controllers/controller_bindings.dart';
@@ -16,14 +17,9 @@ void main()  async{
   ControllerBindings().dependencies();
   WidgetsFlutterBinding.ensureInitialized();
   runApp(AppMainPage());
-
 }
 
 class AppMainPage extends StatelessWidget {
-
-  Color _primaryColor = HexColor('#04aa6b');// #DC54FE
-  Color _accentColor = HexColor('#04aa6b'); // #8A02AE
-
   @override
   Widget build(BuildContext context) {
     print(' name :'+CtmStrings.appName);
@@ -63,18 +59,19 @@ class AppMainPage extends StatelessWidget {
             title: CtmStrings.appName,
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
-              primaryColor: _primaryColor,
-              accentColor: _accentColor,
-              scaffoldBackgroundColor: Colors.grey.shade100,
-              primarySwatch: Colors.grey,
+              primaryColor: CtmColors.primaryColor,
+              accentColor: CtmColors.secondaryColor,
+              scaffoldBackgroundColor:CtmColors.appScaffoldBgColor,
+              primarySwatch:  CtmColors.primarySwatchColor//  Colors.grey,
             ),
             initialRoute: '/splash_screen',
-           // initialRoute: '/success_ful',
             onGenerateRoute: RouteGenerator.generatorRoute,
           );
         }
     );
   }
+
+  /// next version come setting web config
   _webConfigSetUpStaticValue(SettingModel webConfigValue){
     print('LogoText :'+webConfigValue.logotext.toString());
     print('AppTitle :'+webConfigValue.apptitle.toString());

@@ -1,6 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../common/ctm_colors.dart';
+import '../../common/ctm_margin.dart';
+import '../../common/ctm_padding.dart';
+import '../../common/ctm_sizes.dart';
 import '../../common/ctm_strings.dart';
 import '../../common/ctm_style.dart';
 import '../../common/theme_helper.dart';
@@ -15,7 +19,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  double _headerHeight = 250;
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController mailTextEditCTR = TextEditingController();
@@ -30,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: CtmColors.appWhiteColor,
       body: _buildLoginBody(),
     );
   }
@@ -41,30 +44,30 @@ class _LoginPageState extends State<LoginPage> {
       child: Column(
         children: [
           Container(
-            height: _headerHeight,
-            child: Image.network(
-              'https://bdtask-demo.com/backend/public/image/websetting/1655978324_10b0faacf09c0386ba34.png',
-              color: Theme.of(context).primaryColor,
-            ),
-            // child: HeaderWidget(_headerHeight, true, Icons.login_rounded), //let's create a common header widget
-          ),
+              height: CtmSizes.headerHeight,
+              child: Image.asset(
+                  CtmStrings.appLogoImagePNGPath,
+
+                color: Theme.of(context).primaryColor,
+              )),
           SafeArea(
             child: Container(
-                padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                margin: EdgeInsets.fromLTRB(20, 10, 20, 10), // This will be the login form
-                child: Column(
-                  children: [
-                    Text(
-                      CtmStrings.login,
-                      style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.normal,
-                          color: Theme.of(context).primaryColor),
-                    ),
-                    SizedBox(height: 30.0),
-                    _buildLoginForm()
-                  ],
-                )),
+              padding: pageRootPadding,
+              margin: pageRootMargin, // This will be the login form
+              child: Column(
+                children: [
+                  Text(
+                    CtmStrings.login,
+                    style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.normal,
+                        color: Theme.of(context).primaryColor),
+                  ),
+                  SizedBox(height: 30.0),
+                  _buildLoginForm()
+                ],
+              ),
+            ),
           ),
         ],
       ),
@@ -103,6 +106,10 @@ class _LoginPageState extends State<LoginPage> {
                       validator: (val) {
                         if (val!.isEmpty) {
                           return CtmStrings.plzEnterValidMail;
+                        } else if (!RegExp(
+                                r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")
+                            .hasMatch(val)) {
+                          return "Enter a valid email address";
                         }
                         return null;
                       },

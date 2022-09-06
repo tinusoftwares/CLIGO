@@ -2,6 +2,11 @@
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import '../../common/ctm_colors.dart';
+import '../../common/ctm_margin.dart';
+import '../../common/ctm_padding.dart';
+import '../../common/ctm_sizes.dart';
+import '../../common/ctm_strings.dart';
 import '../../common/theme_helper.dart';
 import 'forgot_password_verification_page.dart';
 import 'login_page.dart';
@@ -19,20 +24,19 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
-    double _headerHeight = 300;
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: CtmColors.appBgColor,
         body: SingleChildScrollView(
           child: Column(
             children: [
               Container(
-                height: _headerHeight,
-                child: HeaderWidget(_headerHeight, true, Icons.paste),
+                height: CtmSizes.headerHeight,
+                child: HeaderWidget(CtmSizes.headerHeight, true, Icons.paste),
               ),
               SafeArea(
                 child: Container(
-                  margin: EdgeInsets.fromLTRB(25, 10, 25, 10),
-                  padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  margin: pageRootMargin,
+                  padding: pageRootPadding,
                   child: Column(
                     children: [
                       Container(
@@ -42,7 +46,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Forgot Password?',
+                            Text(CtmStrings.forgetPassword,
                               style: TextStyle(
                                   fontSize: 35,
                                   fontWeight: FontWeight.bold,
@@ -51,19 +55,17 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                               // textAlign: TextAlign.center,
                             ),
                             SizedBox(height: 10,),
-                            Text('Enter the email address associated with your account.',
+                            Text(CtmStrings.emailAccountSubTitle,
                               style: TextStyle(
-                                // fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black54
                               ),
                               // textAlign: TextAlign.center,
                             ),
                             SizedBox(height: 10,),
-                            Text('We will email you a verification code to check your authenticity.',
+                            Text(CtmStrings.forgetPassDetailsText,
                               style: TextStyle(
                                 color: Colors.black38,
-                                // fontSize: 20,
                               ),
                               // textAlign: TextAlign.center,
                             ),
@@ -71,78 +73,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         ),
                       ),
                       SizedBox(height: 40.0),
-                      Form(
-                        key: _formKey,
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              child: TextFormField(
-                                decoration: ThemeHelper().textInputDecoration("Email", "Enter your email"),
-                                validator: (val){
-                                  if(val!.isEmpty){
-                                    return "Email can't be empty";
-                                  }
-                                  else if(!RegExp(r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$").hasMatch(val)){
-                                    return "Enter a valid email address";
-                                  }
-                                  return null;
-                                },
-                              ),
-                              decoration: ThemeHelper().inputBoxDecorationShaddow(),
-                            ),
-                            SizedBox(height: 40.0),
-                            Container(
-                              decoration: ThemeHelper().buttonBoxDecoration(context),
-                              child: ElevatedButton(
-                                style: ThemeHelper().buttonStyle(),
-                                child: Padding(
-                                  padding: const EdgeInsets.fromLTRB(
-                                      40, 10, 40, 10),
-                                  child: Text(
-                                    "Send".toUpperCase(),
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                                onPressed: () {
-                                  if(_formKey.currentState!.validate()) {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => ForgotPasswordVerificationPage()),
-                                    );
-                                  }
-                                },
-                              ),
-                            ),
-                            SizedBox(height: 30.0),
-                            Text.rich(
-                              TextSpan(
-                                children: [
-                                  TextSpan(text: "Remember your password? "),
-                                  TextSpan(
-                                    text: 'Login',
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(builder: (context) => LoginPage()),
-                                        );
-                                      },
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold
-                                        ,color: Theme.of(context).primaryColor
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
+                      _buildForgetForm()
                     ],
                   ),
                 ),
@@ -150,6 +81,79 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             ],
           ),
         )
+    );
+  }
+
+  _buildForgetForm(){
+    return   Form(
+      key: _formKey,
+      child: Column(
+        children: <Widget>[
+          Container(
+            child: TextFormField(
+              decoration: ThemeHelper().textInputDecoration(CtmStrings.regEmailAddressMust, CtmStrings.enterYMail),
+              validator: (val){
+                if(val!.isEmpty){
+                  return CtmStrings.plzEnterEmptyMail;
+                }
+                else if(!RegExp(r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$").hasMatch(val)){
+                  return CtmStrings.plzEnterValidMail;
+                }
+                return null;
+              },
+            ),
+            decoration: ThemeHelper().inputBoxDecorationShaddow(),
+          ),
+          SizedBox(height: 40.0),
+          Container(
+            decoration: ThemeHelper().buttonBoxDecoration(context),
+            child: ElevatedButton(
+              style: ThemeHelper().buttonStyle(),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
+                child: Text(CtmStrings.send.toUpperCase(),
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: CtmColors.appWhiteColor,
+                  ),
+                ),
+              ),
+              onPressed: () {
+                if(_formKey.currentState!.validate()) {
+                 /* Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ForgotPasswordVerificationPage()),
+                  );*/
+                }
+              },
+            ),
+          ),
+          SizedBox(height: 30.0),
+          Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(text: CtmStrings.isRememberPassword),
+                TextSpan(
+                  text: CtmStrings.login,
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginPage()),
+                      );
+                    },
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold
+                      ,color: Theme.of(context).primaryColor
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

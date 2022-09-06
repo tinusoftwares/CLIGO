@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bus/pages/payment_method/pay_pal_payment.dart';
+
+import '../../common/ctm_colors.dart';
 
 
 class makePayment extends StatefulWidget {
@@ -24,7 +27,7 @@ class _makePaymentState extends State<makePayment> {
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(45.0),
             child: new AppBar(
-              backgroundColor: Colors.white,
+              backgroundColor: CtmColors.appWhiteColor,
               title: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -47,27 +50,27 @@ class _makePaymentState extends State<makePayment> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    // RaisedButton(
-                    //   onPressed: (){
-                    //
-                    //     // make PayPal payment
-                    //
-                    //     Navigator.of(context).push(
-                    //       MaterialPageRoute(
-                    //         builder: (BuildContext context) => PaypalPayment(
-                    //           onFinish: (number) async {
-                    //
-                    //             // payment done
-                    //             print('order id: '+number);
-                    //           },
-                    //         ),
-                    //       ),
-                    //     );
-                    //
-                    //
-                    //   },
-                    //   child: Text('Pay with Paypal', textAlign: TextAlign.center,),
-                    // ),
+                    TextButton(
+                      onPressed: (){
+
+                        // make PayPal payment
+
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (BuildContext context) => PaypalPayment(
+                              onFinish: (number) async {
+
+                                // payment done
+                                print('order id: '+number);
+                              },
+                            ),
+                          ),
+                        );
+
+
+                      },
+                      child: Text('Pay with Paypal', textAlign: TextAlign.center,),
+                    ),
 
                   ],
                 ),

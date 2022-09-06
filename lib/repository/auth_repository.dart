@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 
 import '../common/api_url.dart';
@@ -11,7 +12,7 @@ class AuthRepository {
     try {
       final response = await http.post(url,
           body: jsonEncode(loginMap), headers: RestApiStatus.headerMap);
-      print('bodyResponseLogin :' + response.body.toString());
+      print('bodyResponseLogin code :' + response.statusCode.toString());
       return response;
     } on Exception catch (exception) {
       throw (exception);
@@ -26,7 +27,7 @@ class AuthRepository {
     try {
       final response = await http.post(url,
           body: jsonEncode(registerMap), headers: RestApiStatus.headerMap);
-      print('bodyResponseReg :' + response.body.toString());
+      print('bodyResponseReg  code:' + response.statusCode.toString());
       return response;
     } on Exception catch (exception) {
       throw (exception);
@@ -40,7 +41,7 @@ class AuthRepository {
     try {
       final response = await http.post(url,
           body: forgetMap, headers: RestApiStatus.headerMap);
-      print('bodyResponseForget :' + response.body.toString());
+      print('bodyResponseForget code :' + response.statusCode.toString());
       return response;
     } on Exception catch (exception) {
       throw (exception);
@@ -54,7 +55,7 @@ class AuthRepository {
     try {
       final response = await http.post(url,
           body: forgetMap, headers: RestApiStatus.headerMap);
-      print('bodyResponseForget :' + response.body.toString());
+      print('bodyResponseForget code :' + response.statusCode.toString());
       return response;
     } on Exception catch (exception) {
       throw (exception);

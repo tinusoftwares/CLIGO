@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
+import '../../common/ctm_colors.dart';
 import '../../controllers/profile/profile_controller.dart';
 import '../../models/profile_info_model.dart';
 import '../authentication/forgot_password_page.dart';
@@ -42,10 +43,10 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         title: Text(
           "Profile Page",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(color: CtmColors.appWhiteColor, fontWeight: FontWeight.bold),
         ),
         elevation: 0.5,
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: IconThemeData(color:CtmColors.appWhiteColor),
         flexibleSpace: Container(
           decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -104,8 +105,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
-                    border: Border.all(width: 5, color: Colors.white),
-                    color: Colors.white,
+                    border: Border.all(width: 5, color: CtmColors.appWhiteColor),
+                    color: CtmColors.appWhiteColor,
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black12,

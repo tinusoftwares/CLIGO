@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../common/ctm_colors.dart';
+import '../../common/ctm_strings.dart';
 import '../../common/shimmer_loading.dart';
 import '../../controllers/booking/dynamic_seat_plan_controller.dart';
 import '../../controllers/country_controller/CountryController.dart';
@@ -30,16 +32,15 @@ class _BookingNowPageState extends State<BookingNowPage> {
 
   @override
   Widget build(BuildContext context) {
-    print('pass Data :' + widget.journeyDate.toString());
+
 
     return Scaffold(
         appBar: AppBar(
-          title: Text(
-            "Booking Ticket ",
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          title: Text(CtmStrings.bookingTicketTitle,
+            style: TextStyle(color: CtmColors.appWhiteColor, fontWeight: FontWeight.bold),
           ),
           elevation: 0.5,
-          iconTheme: IconThemeData(color: Colors.white),
+          iconTheme: IconThemeData(color: CtmColors.appWhiteColor),
           flexibleSpace: Container(
             decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -69,8 +70,8 @@ class _BookingNowPageState extends State<BookingNowPage> {
                       padding: EdgeInsets.all(5),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(40),
-                        border: Border.all(width: 0, color: Colors.white),
-                        color: Colors.white,
+                        border: Border.all(width: 0, color: CtmColors.appWhiteColor),
+                        color: CtmColors.appWhiteColor,
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black12,
@@ -81,7 +82,7 @@ class _BookingNowPageState extends State<BookingNowPage> {
                       ),
                       child: Icon(
                         Icons.person,
-                        color: Colors.grey.shade300,
+                        color: CtmColors.greyColor300,
                       ),
                     ),
                   ),

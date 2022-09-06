@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 
+import '../../common/ctm_colors.dart';
+
 class HeaderWidget extends StatefulWidget {
   final double _height;
   final bool _showIcon;
@@ -123,7 +125,7 @@ class _HeaderWidgetState extends State<HeaderWidget> {
                     ),
                    // border: Border.all(width: 5, color: Colors.white),
                   ),
-                  child:  Image.network('https://bdtask-demo.com/backend/public/image/websetting/1655978324_10b0faacf09c0386ba34.png',color: Colors.white,)
+                  child:  Image.network('https://bdtask-demo.com/backend/public/image/websetting/1655978324_10b0faacf09c0386ba34.png',color: CtmColors.appWhiteColor,)
                  /* Icon(
                     _icon,
                     color: Colors.white,

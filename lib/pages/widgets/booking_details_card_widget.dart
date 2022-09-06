@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../common/ctm_colors.dart';
 import '../../common/ctm_style.dart';
 import '../../common/theme_helper.dart';
 import '../../models/booking_history_model.dart';
@@ -46,7 +47,7 @@ class BookingDetailsCardWidget extends StatelessWidget {
             elevation: 15,
             child: Container(
               decoration: BoxDecoration(
-                color:Colors.white,
+                color:CtmColors.appWhiteColor,
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(20),bottomRight:Radius.circular(50) ),
               ),
               margin: EdgeInsets.symmetric(vertical: 2,horizontal: 2),
@@ -71,7 +72,7 @@ class BookingDetailsCardWidget extends StatelessWidget {
             elevation: 8,
             child: Container(
               decoration: BoxDecoration(
-                color:Colors.white,
+                color:CtmColors.appWhiteColor,
                 borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
               margin: EdgeInsets.symmetric(vertical: 5,horizontal: 2),
@@ -205,7 +206,7 @@ class BookingDetailsCardWidget extends StatelessWidget {
                             Icon(
                               Icons.share,
                               size: 18,
-                              color: Colors.white,
+                              color: CtmColors.appWhiteColor,
                             ),
                             SizedBox(
                               width: 5,
@@ -241,7 +242,7 @@ class BookingDetailsCardWidget extends StatelessWidget {
                           Icon(
                             Icons.download,
                             size: 18,
-                            color: Colors.white,
+                            color: CtmColors.appWhiteColor,
                           ),
                           SizedBox(
                             width: 5,

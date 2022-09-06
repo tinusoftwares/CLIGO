@@ -2,6 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+
+import '../common/ctm_colors.dart';
+import '../common/ctm_strings.dart';
 import 'authentication/login_page.dart';
 import 'booking_process/booking_now_page.dart';
 import 'booking_process/find_tickets_page.dart';
@@ -58,12 +61,12 @@ class _SplashScreenState extends State<SplashScreen> {
             child: Center(
               child: ClipOval(
                 child:
-                Image.asset('assets/images/bus365logo.png',color: Theme.of(context).primaryColor,)
+                Image.asset(CtmStrings.appLogoImagePNGPath,color: Theme.of(context).primaryColor,)
               ),
             ),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.white,
+              color: CtmColors.appWhiteColor,
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.3),

@@ -1,16 +1,16 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 
+import '../../common/ctm_alert_widget.dart';
 import '../../models/country_model.dart';
 import '../../models/country_wise_area_model.dart';
 import '../../models/doc_type_model.dart';
 import '../../repository/country_repository.dart';
 
-class CountryController extends GetConnect{
-
-
-   ///country init 01
+class CountryController extends GetConnect {
+  ///country init 01
   RxList<CountryModel> countryList = List<CountryModel>.empty(growable: true).obs;
+
   RxList<DocTypeModel> docType = List<DocTypeModel>.empty(growable: true).obs;
 
   /// country wise area location
@@ -19,13 +19,11 @@ class CountryController extends GetConnect{
   @override
   void onInit() {
     super.onInit();
-    print(' country list Call ');
+    print('CountryController.onInit');
     countryCTR();
     countryWiseAreaLocationCTR();
     regDocTypeList();
-
   }
-
 
   countryCTR() {
     CountryRepository().countryNameRep().then((resValue) async {
@@ -37,13 +35,11 @@ class CountryController extends GetConnect{
         if (bodyMap['status'] == "success") {
           if (bodyMap['response'] == 200) {
             if (bodyMap['data'] != null) {
-
-              for(var cty in bodyMap['data']){
-                  countryList.add(CountryModel.fromJson(cty));
+              for (var cty in bodyMap['data']) {
+                countryList.add(CountryModel.fromJson(cty));
               }
-              print(' Country name :'+countryList[0].name.toString());
-              print('lng Country :'+countryList.length.toString());
-
+              print(' Country name :' + countryList[0].name.toString());
+              print('lng Country :' + countryList.length.toString());
             }
           }
         }
@@ -53,9 +49,9 @@ class CountryController extends GetConnect{
     }).onError((error, stackTrace) {
       print('Error :' + error.toString());
       print('stackTrace :' + stackTrace.toString());
+      CtmAlertDialog.apiServerErrorAlertDialog('Server Error :',error.toString());
     });
   }
-
 
   countryWiseAreaLocationCTR() {
     CountryRepository().countryWiseAreaLocationRep().then((resValue) async {
@@ -68,13 +64,13 @@ class CountryController extends GetConnect{
         if (bodyMap['status'] == "success") {
           if (bodyMap['response'] == 200) {
             if (bodyMap['data'] != null) {
-
-              for(var cty in bodyMap['data']){
-                countryWiseAreaLocationList.add(CountryWiseAreaModel.fromJson(cty));
+              for (var cty in bodyMap['data']) {
+                countryWiseAreaLocationList
+                    .add(CountryWiseAreaModel.fromJson(cty));
               }
-              print('area :'+countryWiseAreaLocationList[0].name.toString());
-              print('lng are :'+countryWiseAreaLocationList.length.toString());
-
+              print('area :' + countryWiseAreaLocationList[0].name.toString());
+              print(
+                  'lng are :' + countryWiseAreaLocationList.length.toString());
             }
           }
         }
@@ -84,13 +80,12 @@ class CountryController extends GetConnect{
     }).onError((error, stackTrace) {
       print('Error :' + error.toString());
       print('stackTrace :' + stackTrace.toString());
+      CtmAlertDialog.apiServerErrorAlertDialog('Server Error :',error.toString());
     });
   }
 
-  regDocTypeList(){
-    docType.add(DocTypeModel(id: "1",name: "passport"));
-    docType.add(DocTypeModel(id: "2",name: "nid"));
+  regDocTypeList() {
+    docType.add(DocTypeModel(id: "1", name: "passport"));
+    docType.add(DocTypeModel(id: "2", name: "nid"));
   }
-
 }
-

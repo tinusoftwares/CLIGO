@@ -2,9 +2,10 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 
+import '../../common/ctm_alert_widget.dart';
 import '../../repository/auth_repository.dart';
 
-class RegisterController extends GetxController{
+class RegisterController extends GetConnect{
 
 
   registerCTR(Map<String, String> registerMap) {
@@ -27,6 +28,7 @@ class RegisterController extends GetxController{
     }).onError((error, stackTrace) {
       print('Error :' + error.toString());
       print('stackTrace :' + stackTrace.toString());
+      CtmAlertDialog.apiServerErrorAlertDialog('Server Error :',error.toString());
     });
   }
 }

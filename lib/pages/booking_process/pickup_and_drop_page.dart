@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../common/ctm_alert_widget.dart';
+import '../../common/ctm_colors.dart';
 import '../../common/ctm_strings.dart';
 import '../../common/ctm_style.dart';
 import '../../common/theme_helper.dart';
@@ -15,7 +17,7 @@ import '../widgets/ctm_drawer_widget.dart';
 
 class PickupAndDropPage extends StatefulWidget {
   FindTicketListModel ticketListModel;
-  ProfileController profileController =Get.put(ProfileController());
+  ProfileController profileController = Get.put(ProfileController());
   PickupAndDropPage(this.ticketListModel);
 
   @override
@@ -24,28 +26,25 @@ class PickupAndDropPage extends StatefulWidget {
   }
 }
 
-class _PickupAndDropPageState extends State<PickupAndDropPage> with TickerProviderStateMixin {
+class _PickupAndDropPageState extends State<PickupAndDropPage>
+    with TickerProviderStateMixin {
+  DynamicSeatPlanController dynamicSeatPlanController =
+      Get.put(DynamicSeatPlanController());
   CountryController countryController = Get.put(CountryController());
+  ProfileController profileController = ProfileController();
   final _formKey = GlobalKey<FormState>();
   bool checkedValue = false;
   bool checkboxValue = false;
 
-  ProfileController profileController = ProfileController();
-  DynamicSeatPlanController dynamicSeatPlanController =
-      Get.put(DynamicSeatPlanController());
-
   List selected = [];
-  int? selecteditem;
+  int? selectedItems;
 
   final listAdd = <Widget>[];
-  //final listAddGroup = <Widget>[];
   var listAddGroup = [];
 
   bool isActiveSeatColor = true;
 
   int totalSeat = 0;
-  int asciiValue = 65;
-
   int childrenSeatNo = 0;
   double childrenSeatFair = 0.0;
   int adultSeatNo = 0;
@@ -73,15 +72,7 @@ class _PickupAndDropPageState extends State<PickupAndDropPage> with TickerProvid
 
   @override
   void initState() {
-    animationController = new AnimationController(
-      duration: new Duration(seconds: 5),
-      vsync: this,
-    );
-
-    animationController.repeat();
-
-    // TODO: implement initState
-    // _buildSeatLayout();
+    animationRepeat();
     super.initState();
   }
 
@@ -89,6 +80,14 @@ class _PickupAndDropPageState extends State<PickupAndDropPage> with TickerProvid
   void dispose() {
     animationController.dispose(); // you need this
     super.dispose();
+  }
+
+  animationRepeat() {
+    animationController = new AnimationController(
+      duration: new Duration(seconds: 5),
+      vsync: this,
+    );
+    animationController.repeat();
   }
 
   @override
@@ -147,10 +146,10 @@ class _PickupAndDropPageState extends State<PickupAndDropPage> with TickerProvid
       appBar: AppBar(
         title: Text(
           "Pickup And Drop",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(color: CtmColors.appWhiteColor, fontWeight: FontWeight.bold),
         ),
         elevation: 0.5,
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: IconThemeData(color: CtmColors.appWhiteColor),
         flexibleSpace: Container(
           decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -178,8 +177,8 @@ class _PickupAndDropPageState extends State<PickupAndDropPage> with TickerProvid
                     padding: EdgeInsets.all(5),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(40),
-                      border: Border.all(width: 0, color: Colors.white),
-                      color: Colors.white,
+                      border: Border.all(width: 0, color: CtmColors.appWhiteColor),
+                      color: CtmColors.appWhiteColor,
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black12,
@@ -220,23 +219,16 @@ class _PickupAndDropPageState extends State<PickupAndDropPage> with TickerProvid
                   child: TextFormField(
                     controller: childTxtEditController,
                     onChanged: (childrenValue) {
-                      print('test c : ' + childrenValue);
                       inputChildSeatNo = int.parse(childTxtEditController.text);
                       if (childrenSeatNo == 0) {
-                        Get.snackbar('Alert', ''' you can't take more then  ''',
-                            backgroundColor: Colors.white,
-                            colorText: Colors.red);
+                        CtmAlertDialog.fieldAlertDialog(CtmStrings.fieldAlert, CtmStrings.fieldAlertMessage);
                       } else if (childrenSeatNo < 4) {
                         print('test trip child set Value :  ' + childrenValue);
-
                         print('test ' + specialTxtEditController.text);
                       } else {
-                        Get.snackbar('Alert', ''' you can't take more then  ''',
-                            backgroundColor: Colors.white,
-                            colorText: Colors.red);
-                      }
 
-                      print('test ' + childTxtEditController.text);
+                        CtmAlertDialog.fieldAlertDialog(CtmStrings.fieldAlert, CtmStrings.fieldAlertMessage);
+                      }
                     },
                     decoration: ThemeHelper()
                         .textInputDecoration("Children", "Seat No"),
@@ -254,32 +246,28 @@ class _PickupAndDropPageState extends State<PickupAndDropPage> with TickerProvid
                   child: TextFormField(
                     controller: adultTxtEditController,
                     onChanged: (adultValue) {
-                      print(' adult check adult : ' + adultValue.toString());
                       String val = adultValue;
                       if (val.isEmpty) {
-                        print('Empty ');
                         setState(() {
-                          childSeatCountWithFairCal = 0;
-                          inputAdultSeatNo=0;
-                          totalPrice=totalPrice-childSeatCountWithFairCal;
-
+                          print('cal Adult +');
+                          adultSeatCountWithFairCal = (double.parse(inputAdultSeatNo.toString())) * adultSeatFair;
+                          inputAdultSeatNo = 0;
+                          totalPrice-=adultSeatCountWithFairCal;
                         });
                       } else {
-
                         inputAdultSeatNo = int.parse(adultValue.toString());
-                        if (inputSpecialSeatNo <= selected.length) {
-
-                          print('adult  Seat No :' + adultValue);
+                        print('inputAdultSeatNo >'+inputAdultSeatNo.toString());
+                        if (inputAdultSeatNo <= selected.length) {
+                          print('adult  Seat No :' + inputAdultSeatNo.toString());
                           print('adult  Seat Fair:' + adultSeatFair.toString());
 
                           setState(() {
-                            childSeatCountWithFairCal = (double.parse(inputAdultSeatNo.toString())) * adultSeatFair;
-                            totalPrice += childSeatCountWithFairCal;
+                            adultSeatCountWithFairCal = (double.parse(inputAdultSeatNo.toString())) * adultSeatFair;
+                            totalPrice += adultSeatCountWithFairCal;
                           });
-                          print('adult Total Price  :' +
-                              childSeatCountWithFairCal.toString());
+                          print('adult Total Price  :' + adultSeatCountWithFairCal.toString());
                         } else {
-                          Get.snackbar('Alert', '');
+                          Get.snackbar('Alert', 'Select item equal or less then seat count');
                         }
                       }
                     },
@@ -294,20 +282,16 @@ class _PickupAndDropPageState extends State<PickupAndDropPage> with TickerProvid
                   child: TextFormField(
                     controller: specialTxtEditController,
                     onChanged: (specialValue) {
-                      print('test s ' + specialValue);
-                      inputSpecialSeatNo =
-                          int.parse(specialTxtEditController.text);
+
+
+                      inputSpecialSeatNo = int.parse(specialTxtEditController.text);
                       if (specialSeatNo == 0) {
-                        Get.snackbar('Alert', ''' you can't take more then  ''',
-                            backgroundColor: Colors.white,
-                            colorText: Colors.red);
+                        CtmAlertDialog.fieldAlertDialog(CtmStrings.fieldAlert, CtmStrings.fieldAlertMessage);
                       } else if (specialSeatNo < 4) {
                         print('special set Value :  ' + specialValue);
                         print('test ' + specialTxtEditController.text);
                       } else {
-                        Get.snackbar('Alert', ''' you can't take more then  ''',
-                            backgroundColor: Colors.white,
-                            colorText: Colors.red);
+                        CtmAlertDialog.fieldAlertDialog(CtmStrings.fieldAlert, CtmStrings.fieldAlertMessage);
                       }
                     },
                     decoration:
@@ -317,9 +301,6 @@ class _PickupAndDropPageState extends State<PickupAndDropPage> with TickerProvid
                 ),
               ],
             ),
-
-
-
             _buildSeatPlan(),
           ],
         ),
@@ -331,25 +312,25 @@ class _PickupAndDropPageState extends State<PickupAndDropPage> with TickerProvid
     return SingleChildScrollView(
       child: Stack(
         children: [
-          //  Container(height: 100, child: HeaderWidget(100,false,Icons.house_rounded),),
           Container(
             alignment: Alignment.center,
             margin: EdgeInsets.fromLTRB(5, 1, 5, 0),
             padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
             child: Column(
               children: [
-                // SizedBox(height: 100,),
                 Container(
                   alignment: Alignment.center,
                   margin: EdgeInsets.fromLTRB(1, 1, 0, 0),
                   padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                   child: Column(
                     children: <Widget>[
-
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Expanded(flex: 5, child: Text('')),
+                          Expanded(flex: 5, child: Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Text('Total Seats : '+widget.ticketListModel.totalSeat.toString(),style: TextStyle(fontWeight: FontWeight.bold),),
+                          )),
                           Expanded(
                               flex: 2,
                               child: Container(
@@ -361,7 +342,7 @@ class _PickupAndDropPageState extends State<PickupAndDropPage> with TickerProvid
                                       padding: const EdgeInsets.only(
                                           bottom: 2, top: 2, right: 5),
                                       child: Image.asset(
-                                        "assets/images/driverstaring.png",
+                                        CtmStrings.driverStaringImagePNGPath,
                                         width: 60,
                                         height: 60,
                                       ),
@@ -381,7 +362,6 @@ class _PickupAndDropPageState extends State<PickupAndDropPage> with TickerProvid
                         ],
                       ),
                       dynamicSeatLayout(),
-
                     ],
                   ),
                 )
@@ -393,12 +373,12 @@ class _PickupAndDropPageState extends State<PickupAndDropPage> with TickerProvid
     );
   }
 
-  ///------------------------------------ Dynamic Seat Layout -----------
+  ///---------------------- Dynamic Seat Layout -----------
 
   dynamicSeatLayout() {
     return Obx(() {
       if (dynamicSeatPlanController.seats.length == 0) {
-        return Text('No data');
+        return Text('Not seat ');
       } else {
         List layout = dynamicSeatPlanController.seats;
         return Container(
@@ -427,7 +407,7 @@ class _PickupAndDropPageState extends State<PickupAndDropPage> with TickerProvid
                             setState(() {
                               /// Setting Info
 
-                              print('selected seat lng :' +
+                              print('selectedSeatLng:' +
                                   selected.length.toString());
                               int selectSeatLng = selected.length;
 
@@ -439,10 +419,8 @@ class _PickupAndDropPageState extends State<PickupAndDropPage> with TickerProvid
                                     selected.add(row['seatNumber']);
                                   }
                                 } else {
-                                  Get.snackbar('Alert',
-                                      'Sorry, you can not book more than 4 seats at a time',
-                                      backgroundColor: Colors.white,
-                                      colorText: Colors.red);
+                                  CtmAlertDialog.fieldAlertDialog(CtmStrings.fieldAlert, CtmStrings.fieldAlertSeatAtATimeMessage);
+
                                 }
                               }
 
@@ -451,11 +429,10 @@ class _PickupAndDropPageState extends State<PickupAndDropPage> with TickerProvid
                             });
                           },
                           child: Stack(
-
                             children: [
                               Container(
                                 color: (selected.contains(row['seatNumber']) ||
-                                    row['isReserved'] == true)
+                                        row['isReserved'] == true)
                                     ? Colors.grey
                                     : Colors.green.shade50,
                                 margin: EdgeInsets.symmetric(
@@ -464,26 +441,20 @@ class _PickupAndDropPageState extends State<PickupAndDropPage> with TickerProvid
                                     vertical: 2, horizontal: 0),
                                 height: 50,
                                 width: 50,
-                                child:
-                                Image.asset('assets/images/seat.png',height: 50,width: 50,color: (selected.contains(row['seatNumber']) ||
-                                    row['isReserved'] == true)
-                                    ? Colors.grey
-                                    : Colors.green),
-                                /* Center(
-                                child:
-                                //Image.asset('assets/images/seat.PNG')
-                                Text(
-                                  row['seatNumber'],
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ),*/
+                                child: Image.asset(CtmStrings.seatImagePNGPath,
+                                    height: 50,
+                                    width: 50,
+                                    color:
+                                        (selected.contains(row['seatNumber']) ||
+                                                row['isReserved'] == true)
+                                            ? Colors.grey
+                                            : Colors.green),
                               ),
                               Positioned(
                                   left: 18,
                                   top: 15,
-                                  child: Text( row['seatNumber']))
+                                  child: Text(row['seatNumber']))
                             ],
-
                           ),
                         ),
                       ),
@@ -546,7 +517,6 @@ class _PickupAndDropPageState extends State<PickupAndDropPage> with TickerProvid
                 _textformat(
                     ctmKey: "Child Price",
                     ctmValue: childrenSeatFair.toString()),
-                //_textformat(ctmKey: "Group Price", ctmValue: groupPrice.toString()),
                 Divider(
                   height: 10,
                   thickness: 1.5,
@@ -570,7 +540,7 @@ class _PickupAndDropPageState extends State<PickupAndDropPage> with TickerProvid
                     Icon(
                       Icons.find_in_page_sharp,
                       size: 30,
-                      color: Colors.white,
+                      color: CtmColors.appWhiteColor,
                     ),
                     SizedBox(
                       width: 10,
@@ -606,12 +576,12 @@ class _PickupAndDropPageState extends State<PickupAndDropPage> with TickerProvid
                   } else {
                     Get.snackbar(
                         'Alert', ''' Selected seat and total must be equal ''',
-                        backgroundColor: Colors.white, colorText: Colors.red);
+                        backgroundColor: CtmColors.appWhiteColor, colorText: CtmColors.appRedColor);
                   }
                 } else {
                   Get.snackbar(
                       'Alert', ''' Selected seat must be one ore more ''',
-                      backgroundColor: Colors.white, colorText: Colors.red);
+                      backgroundColor: CtmColors.appWhiteColor, colorText: CtmColors.appRedColor);
                 }
               },
             ),

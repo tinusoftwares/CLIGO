@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 
+import '../../common/ctm_colors.dart';
+import '../../common/ctm_strings.dart';
 import '../../common/ctm_style.dart';
 import '../../common/theme_helper.dart';
 import '../../controllers/booking/booking_history_controller.dart';
@@ -22,8 +23,8 @@ class _BookingHistoryPageState extends State<BookingHistoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
-        title: Text("Booking History"),
+        backgroundColor: CtmColors.primaryColor,
+        title: Text(CtmStrings.bookingHistoryTitle),
 
       ),
       body:
@@ -32,7 +33,7 @@ class _BookingHistoryPageState extends State<BookingHistoryPage> {
       Obx(() {
         if(_bookingHistoryController.isDataLoading.value){
           if (_bookingHistoryController.bookingHistoryList.length == 0) {
-            return Center(child: Text(' Booking tickets are not available '));
+            return Center(child: Text(CtmStrings.bTicketsRNotAvi));
           } else {
             return _buildBookingBody();
           }
@@ -70,8 +71,8 @@ class _BookingHistoryPageState extends State<BookingHistoryPage> {
             elevation: 5,
             child: ListTile(
               leading: Icon(Icons.airplane_ticket_outlined),
-              title: Text(' Booking Id : '+bookingInfo.bookingId.toString(),style: TextStyle(fontSize: 14),),
-              subtitle: Text("Payment Status : "+bookingInfo.paymentStatus.toString(),style: TextStyle(fontSize: 12)),
+              title: Text(CtmStrings.bId+bookingInfo.bookingId.toString(),style: TextStyle(fontSize: 14),),
+              subtitle: Text(CtmStrings.bPaymentStatus+bookingInfo.paymentStatus.toString(),style: TextStyle(fontSize: 12)),
               trailing:
               bookingInfo.paymentStatus.toString()=='paid'?
               Icon(Icons.arrow_forward,size: 20): _unpaidPaymentOption()
@@ -79,9 +80,7 @@ class _BookingHistoryPageState extends State<BookingHistoryPage> {
           ),
         );
       },
-
     );
-
   }
 
   _unpaidPaymentOption(){
@@ -97,7 +96,7 @@ class _BookingHistoryPageState extends State<BookingHistoryPage> {
             children: [
 
               Text(
-                'Payment',
+                CtmStrings.bPayment,
                 style: ctmPaymentBtnTxtStyleSize14,
               ),
             ],

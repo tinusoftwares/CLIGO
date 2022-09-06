@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../common/ctm_colors.dart';
 import '../../common/theme_helper.dart';
 import '../booking_process/booking_history_page.dart';
 import '../booking_process/find_tickets_page.dart';
@@ -38,7 +39,7 @@ class SuccessFulPage extends StatelessWidget {
                         Icon(
                           Icons.home,
                           size: 18,
-                          color: Colors.white,
+                          color: CtmColors.appWhiteColor,
                         ),
                         SizedBox(
                           width: 5,
@@ -48,7 +49,7 @@ class SuccessFulPage extends StatelessWidget {
                           style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white),
+                              color: CtmColors.appWhiteColor),
                         ),
                       ],
                     ),
@@ -73,7 +74,7 @@ class SuccessFulPage extends StatelessWidget {
                         Icon(
                           Icons.history,
                           size: 18,
-                          color: Colors.white,
+                          color: CtmColors.appWhiteColor,
                         ),
                         SizedBox(
                           width: 5,
@@ -83,7 +84,7 @@ class SuccessFulPage extends StatelessWidget {
                           style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white),
+                              color: CtmColors.appWhiteColor),
                         ),
                       ],
                     ),

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../common/ctm_colors.dart';
 import '../../common/ctm_strings.dart';
 import '../../common/theme_helper.dart';
 
@@ -77,7 +78,7 @@ class _SeatPlanPageState extends State<SeatPlanPage> {
                                   selected.add(row['seatNumber']);
                                 }else{
                                   Get.snackbar(
-                                      'Alert', 'Sorry, you can not book more than 4 seats at a time',backgroundColor: Colors.white,colorText: Colors.red);
+                                      'Alert', 'Sorry, you can not book more than 4 seats at a time',backgroundColor: CtmColors.appWhiteColor,colorText: CtmColors.appRedColor);
                                 }
                               }
 
@@ -101,7 +102,7 @@ class _SeatPlanPageState extends State<SeatPlanPage> {
                             width: 52,
                             child: Center(
                               child:
-                              //Image.asset('assets/images/seat.PNG')
+
                               Text(
                                 row['seatNumber'],
                                 style: TextStyle(fontWeight: FontWeight.bold),

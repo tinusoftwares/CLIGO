@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../common/ctm_colors.dart';
 import '../../common/theme_helper.dart';
 
 import '../../controllers/country_controller/CountryController.dart';
@@ -25,10 +26,10 @@ class _ReviewsState extends State<Reviews>{
         appBar: AppBar(
           backgroundColor: Theme.of(context).primaryColor,
           title: Text("Reviews ",
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            style: TextStyle(color: CtmColors.appWhiteColor, fontWeight: FontWeight.bold),
           ),
           elevation: 0.5,
-          iconTheme: IconThemeData(color: Colors.white),),
+          iconTheme: IconThemeData(color: CtmColors.appWhiteColor),),
 
         body: _buildReviews()
     );

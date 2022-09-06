@@ -26,7 +26,6 @@ class SettingController extends GetxController {
               SharedPreferences prefs = await SharedPreferences.getInstance();
               await prefs.setString('settings', json.encode(bodyMap['data']));
               setting.value = SettingModel.fromJson(bodyMap['data']);
-
               print('Api app title :'+setting.value.logotext.toString());
              CtmStrings.appName =setting.value.logotext.toString();
               print('dynamic app Name :'+CtmStrings.appName);
@@ -43,4 +42,5 @@ class SettingController extends GetxController {
     update();
 
   }
+
 }

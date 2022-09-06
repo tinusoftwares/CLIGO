@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../common/ctm_alert_widget.dart';
 import '../../common/ctm_strings.dart';
 import '../../models/profile_info_model.dart';
 import '../../repository/profile_repository.dart';
@@ -27,13 +29,9 @@ class ProfileController extends GetConnect {
         if (bodyMap['status'] == "success") {
           if (bodyMap['response'] == 200) {
             if (bodyMap['data'] != null) {
-              print(bodyMap['data']);
-
               isLoadingData.value=true;
-
               profile.value = ProfileInfoModel.fromJson(bodyMap['data']);
               print('Login Mail  :'+profile.value.loginEmail.toString());
-
             }
           }
         }
@@ -43,6 +41,7 @@ class ProfileController extends GetConnect {
     }).onError((error, stackTrace) {
       print('Error :' + error.toString());
       print('stackTrace :' + stackTrace.toString());
+      CtmAlertDialog.apiServerErrorAlertDialog('Server Error :',error.toString());
     });
 
   }

@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 
 import '../common/api_url.dart';
@@ -13,7 +14,7 @@ class BookingRepository {
     try {
       final response = await http.post(url,
           body: jsonEncode(creteTBMap), headers: RestApiStatus.headerMapWithToken);
-      print('bodyResponseCTB :' + response.body.toString());
+      print('bodyResponseCTB code :' + response.statusCode.toString());
       return response;
     } on Exception catch (exception) {
       throw (exception);
@@ -29,7 +30,7 @@ class BookingRepository {
     try {
       final response = await http.post(url,
           body: creTBUMap, headers: RestApiStatus.headerMapWithToken);
-      print('bodyResponseCTBU :' + response.body.toString());
+      print('bodyResponseCTBU code:' + response.statusCode.toString());
       return response;
     } on Exception catch (exception) {
       throw (exception);
@@ -43,7 +44,7 @@ class BookingRepository {
     Uri url = Uri.parse(ApiURL.bookingFindTicketsTripListPostUrl);
     try {
       final response = await http.post(url, body: forgetMap);
-      print('bodyResponseBFTTR :' + response.statusCode.toString());
+      print('bodyResponseBFTTR code :' + response.statusCode.toString());
       return response;
 
     } on Exception catch (exception) {

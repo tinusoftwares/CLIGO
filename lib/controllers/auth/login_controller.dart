@@ -1,16 +1,16 @@
 import 'dart:convert';
 import 'package:get/get.dart';
+import '../../common/ctm_alert_widget.dart';
 import '../../local_db_sqflite/db_helper.dart';
 import '../../repository/auth_repository.dart';
 
-class LoginController extends GetxController {
+class LoginController extends GetConnect {
 
   loginCTR(Map<String, String> loginMap) {
     AuthRepository().loginRep(loginMap).then((resValue) async {
       var bodyMap = json.decode(resValue.body);
 
       var resCode = resValue.statusCode;
-      print('Login status  : ' + bodyMap['status'].toString());
       if (resCode == 200 || resCode == 201 || resCode == 202) {
         if (bodyMap['status'] == "success") {
           if (bodyMap['response'] == 200) {
@@ -29,7 +29,7 @@ class LoginController extends GetxController {
     }).onError((error, stackTrace) {
       print('Error :' + error.toString());
       print('stackTrace :' + stackTrace.toString());
-      Get.snackbar('Alert ', error.toString());
+      CtmAlertDialog.apiServerErrorAlertDialog('Server Error :',error.toString());
     });
   }
 }

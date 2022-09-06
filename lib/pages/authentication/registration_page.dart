@@ -3,11 +3,13 @@ import 'dart:convert';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../common/ctm_colors.dart';
 import '../../common/ctm_strings.dart';
 import '../../common/ctm_style.dart';
 import '../../common/theme_helper.dart';
 import '../../controllers/country_controller/CountryController.dart';
 import '../../repository/auth_repository.dart';
+import '../company_info/terms_condition_page.dart';
 import '../widgets/ctm_header_widget.dart';
 import 'login_page.dart';
 
@@ -46,7 +48,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor:
+      CtmColors.appBgColor,
+      //Colors.white,
       body: _buildRegBody(),
     );
   }
@@ -75,47 +79,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
       key: _formKey,
       child: Column(
         children: [
-          /*  GestureDetector(
-            child: Stack(
-              children: [
-                Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    border: Border.all(width: 5, color: Colors.white),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 20,
-                        offset: const Offset(5, 5),
-                      ),
-                    ],
-                  ),
-                  child: Icon(
-                    Icons.person,
-                    color: Colors.grey.shade300,
-                    size: 80.0,
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.fromLTRB(80, 80, 0, 0),
-                  child: Icon(
-                    Icons.add_circle,
-                    color: Colors.grey.shade700,
-                    size: 25.0,
-                  ),
-                ),
-              ],
-            ),
-          ),*/
-
           SizedBox(
             height: 20,
           ),
           Text(
             CtmStrings.signUp,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: ctmSignUpTxtStyle,
           ),
 
           SizedBox(
@@ -159,7 +128,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 if ((val!.isEmpty) &&
                     !RegExp(r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")
                         .hasMatch(val)) {
-                  return "Enter a valid email address";
+                  return CtmStrings.plzEnterValidMail;
                 }
                 return null;
               },
@@ -189,7 +158,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                         width: 1, color: Colors.black.withOpacity(0.2)),
-                    color: Colors.white,
+                    color: CtmColors.appWhiteColor,
                   ),
                   child: _docTpe(),
 
@@ -280,7 +249,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               borderRadius: BorderRadius.circular(10),
               border:
                   Border.all(width: 1, color: Colors.black.withOpacity(0.2)),
-              color: Colors.white,
+              color: CtmColors.appWhiteColor,
             ),
             child: _countryListTo(),
 
@@ -307,7 +276,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       ),
                       InkWell(
                         onTap: () {
-                          /// Click Page
+                           Get.to(TermsAndConditionPage());
                         },
                         child: Text(
                           " On Tap",
@@ -334,7 +303,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             },
             validator: (value) {
               if (!checkboxValue) {
-                return 'You need to accept terms and conditions';
+                return CtmStrings.regNeedAcceptTermsConditions;
               } else {
                 return null;
               }
@@ -429,8 +398,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
         style: ThemeHelper().buttonStyle(),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
-          child: Text(
-            "Register".toUpperCase(),
+          child: Text(CtmStrings.register.toUpperCase(),
             style: ctmPaymentBtnTxtStyle,
           ),
         ),
@@ -458,17 +426,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
               "country_id": countryId,
             };
 
-            print('regBodyMap' + regBodyMap.toString());
             AuthRepository().registerRep(regBodyMap).then((value) {
-
-
 
               var bodyMap = json.decode(value.body);
               print('Login bodyMap ' + bodyMap.toString());
               var resCode = value.statusCode;
-              print('Login status  : ' + bodyMap['status'].toString());
-            //  print('Setting res Code : ' + bodyMap['response'].toString());
-
               if (resCode == 200 || resCode == 201 || resCode == 202) {
                 if (bodyMap['status'] == "success") {
                   if (bodyMap['response'] == 200) {

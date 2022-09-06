@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
 
+import '../../common/ctm_colors.dart';
 import '../../common/theme_helper.dart';
 import '../profile_settings/profile_page.dart';
 import '../widgets/ctm_header_widget.dart';
@@ -23,7 +24,7 @@ class _ForgotPasswordVerificationPageState extends State<ForgotPasswordVerificat
     double _headerHeight = 300;
 
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: CtmColors.appWhiteColor,
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -130,7 +131,7 @@ class _ForgotPasswordVerificationPageState extends State<ForgotPasswordVerificat
                                     style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.white,
+                                      color: CtmColors.appWhiteColor,
                                     ),
                                   ),
                                 ),

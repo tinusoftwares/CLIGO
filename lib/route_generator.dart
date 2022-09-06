@@ -10,9 +10,10 @@ import 'package:flutter_bus/pages/company_info/terms_condition_page.dart';
 import 'package:flutter_bus/pages/profile_settings/change_password_page.dart';
 import 'package:flutter_bus/pages/splash_screen.dart';
 import 'package:flutter_bus/pages/success_page/success_page.dart';
-
 import 'pages/authentication/forgot_password_page.dart';
 import 'pages/booking_process/find_tickets_page.dart';
+import 'pages/company_info/faq_page.dart';
+import 'pages/company_info/faq_question_page.dart';
 import 'pages/profile_settings/profile_page.dart';
 import 'pages/review_section/reviews.dart';
 
@@ -87,6 +88,10 @@ class RouteGenerator{
         return MaterialPageRoute(builder: (_) =>  Reviews());
       }
 
+      case  '/about_us' :{
+        return MaterialPageRoute(builder: (_) =>  AboutUs());
+      }
+
       case  '/policy' :{
         return MaterialPageRoute(builder: (_) =>  PolicyPage());
       }
@@ -95,8 +100,12 @@ class RouteGenerator{
         return MaterialPageRoute(builder: (_) =>  TermsAndConditionPage());
       }
 
-      case  '/about_us' :{
-        return MaterialPageRoute(builder: (_) =>  AboutUs());
+      case  '/company_faq' :{
+        return MaterialPageRoute(builder: (_) =>  FAQPage());
+      }
+
+      case  '/company_question' :{
+        return MaterialPageRoute(builder: (_) =>  FAQQuestionPage());
       }
 
 
@@ -111,7 +120,6 @@ class RouteGenerator{
 
 
       default:
-      // If there is no such named route in the switch statement, e.g. /third
         return MaterialPageRoute(builder: (_) => Scaffold(body: SafeArea(child: Text('Route Error'))));
     }
   }

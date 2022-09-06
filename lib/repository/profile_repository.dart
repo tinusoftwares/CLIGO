@@ -8,8 +8,6 @@ class ProfileRepository {
 
   Future userProfileInfoRep() async {
     Uri url = Uri.parse(ApiURL.userProfileInfoGetUrl);
-
-
     try {
       final response = await http.get(url,headers: RestApiStatus.headerMapWithToken);
       print('profile res code :' + response.statusCode.toString());
@@ -26,7 +24,7 @@ class ProfileRepository {
     try {
       final response = await http.post(url,
           body: profileUpdateMap, headers: RestApiStatus.headerMap);
-      print('bodyResponseReg code :' + response.statusCode.toString());
+      print('bodyResponseProfile code :' + response.statusCode.toString());
       return response;
     } on Exception catch (exception) {
       throw (exception);

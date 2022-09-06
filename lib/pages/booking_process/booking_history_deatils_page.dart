@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 
+import '../../common/ctm_strings.dart';
 import '../../models/booking_history_model.dart';
 import '../widgets/booking_details_card_widget.dart';
 import '../widgets/ctm_header_widget.dart';
@@ -20,9 +21,10 @@ class _BookingHistoryDetailsPageState extends State<BookingHistoryDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-      appBar: AppBar(
+      appBar:
+      AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: Text("Booking Details"),
+        title: Text(CtmStrings.bookingDetailsTitle),
       ),
       body: _buildBooking(),
     );

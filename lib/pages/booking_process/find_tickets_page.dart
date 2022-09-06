@@ -1,11 +1,14 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../common/ctm_alert_widget.dart';
+import '../../common/ctm_colors.dart';
+import '../../common/ctm_strings.dart';
 import '../../common/ctm_style.dart';
 import '../../common/theme_helper.dart';
 import '../../controllers/country_controller/CountryController.dart';
 import '../../controllers/trip/find_ticket_trip_controller.dart';
-import '../../local_db_sqflite/db_helper.dart';
 import '../profile_settings/profile_page.dart';
 import '../widgets/ctm_drawer_widget.dart';
 import '../widgets/ctm_header_widget.dart';
@@ -30,7 +33,8 @@ class _FindTicketPageState extends State<FindTicketPage> {
   DateTime selectedDateReturn = DateTime.now();
   String returnDateFormatText = 'mm-dd-yyyy';
   bool isCheckDrop = false;
-  DropdownMenuItem dropdownMenuItem = DropdownMenuItem(child: Text(''));
+  bool isPreviewDatNotAllow = true;
+  DropdownMenuItem dropdownMenuItem = const DropdownMenuItem(child: Text(''));
 
   /// Return ticket Date Picker
   Future<void> _selectDateDepart(BuildContext context) async {
@@ -39,8 +43,6 @@ class _FindTicketPageState extends State<FindTicketPage> {
         initialDate: selectedDateDepart,
         firstDate: DateTime(2015, 8),
         lastDate: DateTime(2101));
-    print("object");
-
     print(picked);
     if (picked != null && picked != selectedDateDepart) {
       setState(() {
@@ -66,15 +68,14 @@ class _FindTicketPageState extends State<FindTicketPage> {
 
   @override
   Widget build(BuildContext context) {
-    print('token :' + DBHelper.object.getToken().toString());
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            "Find Tickets",
-            style: TextStyle(color: Colors.white),
+            "Bus 365 ",
+            style: TextStyle(color: CtmColors.appWhiteColor),
           ),
           elevation: 0.5,
-          iconTheme: IconThemeData(color: Colors.white),
+          iconTheme: IconThemeData(color: CtmColors.appWhiteColor),
           flexibleSpace: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -88,7 +89,7 @@ class _FindTicketPageState extends State<FindTicketPage> {
           ),
           actions: [
             Container(
-              margin: EdgeInsets.only(
+              margin: const EdgeInsets.only(
                 top: 10,
                 right: 16,
               ),
@@ -96,22 +97,20 @@ class _FindTicketPageState extends State<FindTicketPage> {
                 children: <Widget>[
                   InkWell(
                     onTap: () {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ProfilePage()));
+                      Get.to(ProfilePage());
                     },
                     child: Container(
-                      padding: EdgeInsets.all(5),
+                      padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(40),
-                        border: Border.all(width: 0, color: Colors.white),
-                        color: Colors.white,
-                        boxShadow: [
+                        border: Border.all(
+                            width: 0, color: CtmColors.appWhiteColor),
+                        color: CtmColors.appWhiteColor,
+                        boxShadow: const [
                           BoxShadow(
                             color: Colors.black12,
                             blurRadius: 50,
-                            offset: const Offset(5, 5),
+                            offset: Offset(5, 5),
                           ),
                         ],
                       ),
@@ -126,7 +125,7 @@ class _FindTicketPageState extends State<FindTicketPage> {
             )
           ],
         ),
-        drawer: DrawerWidget(),
+        drawer: const DrawerWidget(),
         body: _buildBooking());
   }
 
@@ -135,29 +134,29 @@ class _FindTicketPageState extends State<FindTicketPage> {
     return SingleChildScrollView(
       child: Stack(
         children: [
-          Container(
+          const SizedBox(
             height: 100,
             child: HeaderWidget(100, false, Icons.house_rounded),
           ),
           Container(
             alignment: Alignment.center,
-            margin: EdgeInsets.fromLTRB(5, 10, 5, 5),
-            padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+            margin: const EdgeInsets.fromLTRB(5, 10, 5, 5),
+            padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
             child: Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 100,
                 ),
                 Container(
                   alignment: Alignment.center,
-                  margin: EdgeInsets.fromLTRB(5, 10, 5, 5),
-                  padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                  margin: const EdgeInsets.fromLTRB(5, 10, 5, 5),
+                  padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
                   child: Column(
                     children: <Widget>[
                       Container(
                         padding: const EdgeInsets.only(left: 8.0, bottom: 4.0),
                         alignment: Alignment.topLeft,
-                        child: Text(
+                        child: const Text(
                           "Find your bus ticket",
                           style: TextStyle(
                             color: Colors.black87,
@@ -175,8 +174,9 @@ class _FindTicketPageState extends State<FindTicketPage> {
                               Expanded(
                                 child: Container(
                                   alignment: Alignment.center,
-                                  padding: EdgeInsets.fromLTRB(1, 0, 1, 0),
-                                  margin: EdgeInsets.fromLTRB(1, 0, 1, 0),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(1, 0, 1, 0),
+                                  margin: const EdgeInsets.fromLTRB(1, 0, 1, 0),
                                   width: 190,
                                   // height: 120,
                                   child: Card(
@@ -185,7 +185,7 @@ class _FindTicketPageState extends State<FindTicketPage> {
                                       dense: true,
                                       isThreeLine: true,
                                       //    leading: Icon(Icons.email),
-                                      title: Text(
+                                      title: const Text(
                                         "Form",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
@@ -200,7 +200,8 @@ class _FindTicketPageState extends State<FindTicketPage> {
                               Expanded(
                                 child: Container(
                                   alignment: Alignment.center,
-                                  padding: EdgeInsets.fromLTRB(1, 0, 1, 0),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(1, 0, 1, 0),
                                   width: 180,
                                   height: 100,
                                   child: Card(
@@ -208,7 +209,7 @@ class _FindTicketPageState extends State<FindTicketPage> {
                                     child: ListTile(
                                       dense: true,
                                       isThreeLine: true,
-                                      title: Text(
+                                      title: const Text(
                                         "To",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
@@ -223,14 +224,14 @@ class _FindTicketPageState extends State<FindTicketPage> {
                           ),
                           Positioned(
                               top: 30,
-                              left: 175,
+                              left: Platform.isAndroid ? 175 : 160,
                               child: CircleAvatar(
                                 backgroundColor: Colors.green,
                                 radius: 15,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
+                                  children: const [
                                     Icon(
                                       Icons.arrow_forward,
                                       size: 12,
@@ -244,32 +245,21 @@ class _FindTicketPageState extends State<FindTicketPage> {
                               ))
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       InkWell(
                         onTap: () {
-                          /// Click Date
-                          // print('Current Date : ' + selectedDateDepart.toIso8601String());
-                          // var day = selectedDateDepart.day;
-                          // var month = selectedDateDepart.month;
-                          // var year = selectedDateDepart.year;
-                          // var currentDate = day + month + year;
-                          // DateTime dt2 = DateTime.parse("2018-02-27 10:09:00");
-                          // print('currentDate' + currentDate.toString());
-
                           print(selectedDateReturn);
 
-                          if (selectedDateDepart.compareTo(selectedDateReturn) <
-                              0) {
-                            print("date is ok");
-                          }
-
-                          if (selectedDateDepart.compareTo(selectedDateReturn) >
-                              0) {
-                            print("DT1 is after DT2");
-                          }
-
+                          setState(() {
+                            if (selectedDateDepart
+                                    .compareTo(selectedDateReturn) >
+                                0) {
+                              isPreviewDatNotAllow = false;
+                              print("DT1 is after DT2");
+                            }
+                          });
                           _selectDateDepart(context);
                         },
                         child: Card(
@@ -279,25 +269,25 @@ class _FindTicketPageState extends State<FindTicketPage> {
                               Icons.calendar_month,
                               color: Theme.of(context).primaryColor,
                             ),
-                            title: Text("Departure"),
+                            title: const Text("Departure"),
                             subtitle: Text(
                                 selectedDateDepart.toString().substring(0, 10)),
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       InkWell(
                         onTap: () {
                           /// Click Date
-                          print('Current Date : ' +
-                              selectedDateReturn.toIso8601String());
+                          print(
+                              'Current Date : ${selectedDateReturn.toIso8601String()}');
                           var day = selectedDateReturn.day;
                           var month = selectedDateReturn.month;
                           var year = selectedDateReturn.year;
                           var currentDate = day + month + year;
-                          print('currentDate' + currentDate.toString());
+                          print('currentDate$currentDate');
                           _selectDateReturn(context);
                         },
                         child: Card(
@@ -307,12 +297,12 @@ class _FindTicketPageState extends State<FindTicketPage> {
                               Icons.calendar_month,
                               color: Theme.of(context).primaryColor,
                             ),
-                            title: Text("Return(Optional)"),
+                            title: const Text("Return(Optional)"),
                             subtitle: Text(returnDateFormatText),
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 50,
                       ),
                       _buildFindTicketBtn(),
@@ -334,24 +324,24 @@ class _FindTicketPageState extends State<FindTicketPage> {
         isExpanded: true,
         isDense: true,
         value: countryIdForm,
-        hint: Text(
+        hint: const Text(
           "Select Area",
         ),
         items: countryController.countryWiseAreaLocationList.map((country) {
           return DropdownMenuItem(
+            value: country.id,
             child: Text(
               country.name.toString(),
               maxLines: 1,
               overflow: TextOverflow.clip,
-              style: TextStyle(fontSize: 12),
+              style: const TextStyle(fontSize: 12),
             ),
-            value: country.id,
           );
         }).toList(),
         onChanged: (String? countryFormId) {
           setState(() {});
           countryIdForm = countryFormId ?? "";
-          print("You selected Form : $countryFormId");
+          print("You selected Form Id  : $countryFormId");
         },
       );
     });
@@ -364,16 +354,16 @@ class _FindTicketPageState extends State<FindTicketPage> {
         isDense: true,
         isExpanded: true,
         value: countryIdTo,
-        hint: Text(
+        hint: const Text(
           "Select Area",
         ),
         items: countryController.countryWiseAreaLocationList.map((country) {
           return DropdownMenuItem(
+            value: country.id,
             child: Text(
               country.name.toString(),
-              style: TextStyle(fontSize: 12),
+              style: const TextStyle(fontSize: 12),
             ),
-            value: country.id,
           );
         }).toList(),
         onChanged: (String? countryToId) {
@@ -392,7 +382,7 @@ class _FindTicketPageState extends State<FindTicketPage> {
       child: ElevatedButton(
         style: ThemeHelper().buttonStyle(),
         child: Padding(
-          padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
+          padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -400,9 +390,9 @@ class _FindTicketPageState extends State<FindTicketPage> {
               Icon(
                 Icons.find_in_page_sharp,
                 size: 30,
-                color: Colors.white,
+                color: CtmColors.appWhiteColor,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Text(
@@ -419,17 +409,21 @@ class _FindTicketPageState extends State<FindTicketPage> {
             "journeydate": selectedDateDepart.toString(),
           };
 
-          print('fTicketBodyMap: ' + findTicketsMapBody.toString());
+          print('fTicketBodyMap: $findTicketsMapBody');
 
           if (countryIdForm != null && countryIdTo != null) {
+            if (isPreviewDatNotAllow) {
+              ///done
               findTicketTripController.findTicketsTripCTR(findTicketsMapBody);
-              print('JData : ' + selectedDateDepart.toString().substring(0, 10),);
-              Get.to(BookingNowPage(journeyDate: selectedDateDepart.toString().substring(0, 10)));
-          }
-
-          else {
-            Get.snackbar('Alert ', "Please select the location",
-                backgroundColor: Colors.white);
+              Get.to(BookingNowPage(
+                  journeyDate: selectedDateDepart.toString().substring(0, 10)));
+            } else {
+              CtmAlertDialog.fieldAlertDialog(
+                  CtmStrings.fieldAlert, CtmStrings.dateNotAllow);
+            }
+          } else {
+            CtmAlertDialog.fieldAlertDialog(
+                CtmStrings.fieldAlert, CtmStrings.plzSelectLocation);
           }
         },
       ),

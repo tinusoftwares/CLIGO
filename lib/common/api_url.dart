@@ -3,7 +3,7 @@
  */
 
 class ApiURL {
-  /// url
+  /// url domain name
   static String globalUrl = "http://159.223.61.171/";
 
   /// api url
@@ -55,15 +55,12 @@ class ApiURL {
   static String countryListGetUrl = baseApiUrl + "countries";
   static String countryWiseAreaLocationGetUrl = baseApiUrl + "locations";
 
-  static String droppingStandByTripIdGetUrl =
-      baseApiUrl + "triplist/droppings/"; // tripId=22
-  static String boardingStandByTripIdGetUrl =
-      baseApiUrl + "triplist/boardings/"; // tripId=22
+  static String droppingStandByTripIdGetUrl = baseApiUrl + "triplist/droppings/"; // tripId=22
+  static String boardingStandByTripIdGetUrl = baseApiUrl + "triplist/boardings/"; // tripId=22
 
   /// ----------------------- Review Section url path -----------------
   static String createReviewPostUrl = baseApiUrl + "ratings/create";
-  static String reviewGetUrlById =
-      baseApiUrl + "ratings/getall/review/19"; // uid
+  static String reviewGetUrlById = baseApiUrl + "ratings/getall/review/19"; // uid
 
 
 ///------------------- Online Payment System -----------------------
@@ -74,5 +71,14 @@ class ApiURL {
   static String onlinePaymentPayStripeGetUrl = baseApiUrl + folder02+"stripe";
   static String onlinePaymentRazorGetUrl = baseApiUrl + folder02+"razor";
 
+
+  ///------------------- Company  About us   -----------------------
+
+  static String companyAboutUsGetUrl = baseApiUrl +'/pages/aboutpage';
+  static String companyTermsGetUrl = baseApiUrl +'/pages/termspage';
+  static String companyFAQGetUrl = baseApiUrl +'/pages/faqpage';
+  static String companyQuestionGetUrl = baseApiUrl +'/pages/question';
+  static String companyPrivacyTypeGetUrl = baseApiUrl +'/pages/privacypage';
+  static String companyCookeGetUrl = baseApiUrl +'/pages/cookepage';
 
 }

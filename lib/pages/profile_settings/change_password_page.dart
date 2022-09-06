@@ -6,6 +6,8 @@ import 'dart:convert';
 
 import 'package:flutter/gestures.dart';
 import 'package:get/get.dart';
+import '../../common/ctm_colors.dart';
+import '../../common/ctm_strings.dart';
 import '../../common/theme_helper.dart';
 import '../../controllers/country_controller/CountryController.dart';
 
@@ -36,7 +38,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: CtmColors.appWhiteColor,
       body: _buildRegBody(),
     );
   }
@@ -68,7 +70,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             height: 20,
           ),
           Text(
-            'Change Password',
+            CtmStrings.changePassMust,
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
 
@@ -84,7 +86,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             child: TextFormField(
               controller: oldPassEController,
               decoration: ThemeHelper()
-                  .textInputDecoration('Old Password ', 'Enter your old password'),
+                  .textInputDecoration(CtmStrings.oldPassMust, CtmStrings.enterYOldPassword),
             ),
             decoration: ThemeHelper().inputBoxDecorationShaddow(),
           ),
@@ -95,10 +97,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
               controller: passEController,
               obscureText: true,
               decoration: ThemeHelper()
-                  .textInputDecoration("Password*", "Enter your password"),
+                  .textInputDecoration(CtmStrings.regPassMust, CtmStrings.enterYPassword),
               validator: (val) {
                 if (val!.isEmpty) {
-                  return "Please enter your password";
+                  return CtmStrings.plzEnterYPassword;
                 }
                 return null;
               },
@@ -111,10 +113,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
               obscureText: true,
               controller: rePassEController,
               decoration: ThemeHelper()
-                  .textInputDecoration("Re-Password*", "Enter your password"),
+                  .textInputDecoration(CtmStrings.regRePassMust, CtmStrings.enterYPassword),
               validator: (val) {
                 if (val!.isEmpty) {
-                  return "Please enter your password";
+                  return CtmStrings.plzEnterYPassword;
                 }
                 return null;
               },
@@ -148,7 +150,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: CtmColors.appWhiteColor,
             ),
           ),
         ),
@@ -168,33 +170,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
               "oldpassword": oldPassword,
 
             };
-
             print('change pass' + regBodyMap.toString());
-         /*   AuthRepository().registerRep(regBodyMap).then((value) {
-
-              //--------------
-
-              var bodyMap = json.decode(value.body);
-              print('Login bodyMap ' + bodyMap.toString());
-              var resCode = value.statusCode;
-              print('Setting status  : ' + bodyMap['status'].toString());
-              print('Setting res Code : ' + bodyMap['response'].toString());
-
-              if (resCode == 200 || resCode == 201 || resCode == 202) {
-                if (bodyMap['status'] == "success") {
-                  if (bodyMap['response'] == 200) {
-                    if (bodyMap['data'] != null) {
-                      print(bodyMap['data']);
-                      var regData = bodyMap['data'];
-                      print('Register Success :' + regData.toString());
-                      Get.offAllNamed('/login');
-                    }
-                  }
-                }
-              } else {
-                print(' else error ');
-              }
-            });*/
           }
         },
       ),

@@ -2,19 +2,21 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+import 'ctm_colors.dart';
+
 class ThemeHelper{
 
   InputDecoration textInputDecoration([String lableText= "", String hintText = ""]){
     return InputDecoration(
       labelText: lableText,
       hintText: hintText,
-      fillColor: Colors.white,
+      fillColor: CtmColors.appWhiteColor,
       filled: true,
       contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.grey)),
-      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.grey.shade400)),
-      errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.red, width: 2.0)),
-      focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.red, width: 2.0)),
+      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: CtmColors.appGrayColor)),
+      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: CtmColors.appGray400Color)),
+      errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: CtmColors.appRedColor, width: 2.0)),
+      focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: CtmColors.appRedColor, width: 2.0)),
     );
   }
 
@@ -77,7 +79,7 @@ class ThemeHelper{
         TextButton(
           child: Text(
             "OK",
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color:CtmColors.appWhiteColor),
           ),
           style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(Colors.black38)),

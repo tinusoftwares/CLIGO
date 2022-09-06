@@ -2,9 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bus/pages/payment_method/pay_pal_payment.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import '../../common/ctm_colors.dart';
+import '../../common/ctm_strings.dart';
 import '../../common/ctm_style.dart';
 import '../../common/theme_helper.dart';
 import '../../controllers/country_controller/CountryController.dart';
@@ -209,12 +212,11 @@ class _PaymentSystemPageState extends State<PaymentSystemPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "Payment System",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        title: Text(CtmStrings.paymentSystemTitle,
+          style: TextStyle(color: CtmColors.appWhiteColor, fontWeight: FontWeight.bold),
         ),
         elevation: 0.5,
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: IconThemeData(color: CtmColors.appWhiteColor),
         flexibleSpace: Container(
           decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -242,8 +244,8 @@ class _PaymentSystemPageState extends State<PaymentSystemPage> {
                     padding: EdgeInsets.all(5),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(40),
-                      border: Border.all(width: 0, color: Colors.white),
-                      color: Colors.white,
+                      border: Border.all(width: 0, color: CtmColors.appWhiteColor),
+                      color: CtmColors.appWhiteColor,
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black12,
@@ -400,7 +402,7 @@ class _PaymentSystemPageState extends State<PaymentSystemPage> {
             height: 80,
             width: double.infinity,
             child: Center(
-              child: Text('Profile data not found!'),
+              child: Text(CtmStrings.profileDataNFound),
             ),
           ),
         );
@@ -426,7 +428,7 @@ class _PaymentSystemPageState extends State<PaymentSystemPage> {
     return Obx(() {
       if (_droppingBoardingController.isDataLoadingBoarding.value) {
         if (_droppingBoardingController.standBoardingList.length == 0) {
-          return Center(child: Text(' Boarding stand are not available '));
+          return Center(child: Text(CtmStrings.boardingStandNAvi));
         } else {
           return ListView.builder(
               shrinkWrap: true,
@@ -819,7 +821,7 @@ class _PaymentSystemPageState extends State<PaymentSystemPage> {
     return InkWell(
       onTap: () {
         print('Click PayPal');
-            //Get.to(PaypalPayment(onFinish: (){},));
+            // Get.to(PaypalPayment(onFinish: (){},));
       },
       child: Container(
         color: Theme.of(context).primaryColor,
@@ -947,7 +949,7 @@ class _PaymentSystemPageState extends State<PaymentSystemPage> {
                 Icon(
                   Icons.done_all,
                   size: 30,
-                  color: Colors.white,
+                  color: CtmColors.appWhiteColor,
                 ),
                 SizedBox(
                   width: 10,
@@ -962,7 +964,7 @@ class _PaymentSystemPageState extends State<PaymentSystemPage> {
             if (pickStand == '' && dropStand == '') {
               Get.snackbar(
                   'Alert', 'Please Select your pick point and drop point',
-                  backgroundColor: Colors.white, colorText: Colors.red);
+                  backgroundColor: CtmColors.appWhiteColor, colorText:CtmColors.appRedColor);
             } else {
               bookingPayLaterMapBody = {
                 'login_email': passengerEmail,

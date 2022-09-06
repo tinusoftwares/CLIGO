@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../common/ctm_colors.dart';
 import '../../common/ctm_style.dart';
 import '../../common/theme_helper.dart';
 import '../../controllers/booking/dynamic_seat_plan_controller.dart';
@@ -168,7 +169,7 @@ class BookingNowCardWidget extends StatelessWidget {
                     Icon(
                       Icons.book_online,
                       size: 18,
-                      color: Colors.white,
+                      color: CtmColors.appWhiteColor,
                     ),
                     SizedBox(
                       width: 5,
@@ -235,7 +236,7 @@ class BookingNowCardWidget extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 12, horizontal: 10),
                 child: Text(
                   'Ok',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
+                  style: TextStyle(fontSize: 18, color: CtmColors.appWhiteColor),
                 )),
           ),
         ],

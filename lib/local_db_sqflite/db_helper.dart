@@ -7,6 +7,7 @@ import 'package:get_storage/get_storage.dart';
 class DBHelper {
   static DBHelper object = DBHelper._();
 
+  /// not clear this line
   DBHelper._();
 
   init() async {
