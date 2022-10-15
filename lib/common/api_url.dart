@@ -4,10 +4,10 @@
 
 class ApiURL {
   /// url domain name
-  static String globalUrl = "http://159.223.61.171/";
+  static String globalUrl = "https://cligo.in/";
 
   /// api url
-  static String baseApiUrl = "http://159.223.61.171/backend/modules/api/v1/";
+  static String baseApiUrl = "http://cligo.in/backend/modules/api/v1/";
 
   /// folderPath;
   static String folder01 = "passangers/";

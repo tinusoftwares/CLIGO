@@ -1,12 +1,12 @@
 
 
 import 'package:flutter/material.dart';
+import '../../common/ctm_colors.dart';
+import '../../pages/booking_process/booking_history_page.dart';
+import '../../pages/booking_process/find_tickets_page.dart';
 import 'package:get/get.dart';
 
-import '../../common/ctm_colors.dart';
 import '../../common/theme_helper.dart';
-import '../booking_process/booking_history_page.dart';
-import '../booking_process/find_tickets_page.dart';
 
 class SuccessFulPage extends StatelessWidget {
   const SuccessFulPage({Key? key}) : super(key: key);
@@ -22,14 +22,28 @@ class SuccessFulPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(child: Text('Ticket booking has successful',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Theme.of(context).primaryColor),),),
+             // Container(child: Text('Ticket booking has successful',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Theme.of(context).primaryColor),),),
               SizedBox(height: 10),
-              Container(child: Image.network('https://meetanshi.com/media/catalog/product/cache/ccb305b1061c785de33da9c79e0526ce/m/2/m2-success-page-product-image-380x410.png',height: 300,width: 300,)),
+
+              Container(child: Text('Thank You ',style: TextStyle(fontSize: 40,fontWeight: FontWeight.bold,color: Theme.of(context).primaryColor),),),
+
+              SizedBox(height: 50),
+              Container(
+                height: 100,
+                width: 100,
+                child: CircleAvatar(
+                  backgroundColor: Colors.green,
+                    child: Icon(Icons.done_all,size: 50,)),
+              ),
+              SizedBox(height: 50),
+              Container(child: Text('Ticket booking done successfully',style: TextStyle(fontSize: 10))),
+              SizedBox(height: 20,),
+              Container(child: Text('You Will be redirected to the home page shortly\n or click here to return to home page  ',style: TextStyle(fontSize: 12,fontWeight: FontWeight.bold,color: Theme.of(context).primaryColor),),),
               SizedBox(height: 50,),
               Container(
                 decoration: ThemeHelper().buttonBoxDecoration(context),
                 child: ElevatedButton(
-                  style: ThemeHelper().buttonStyle(),
+                  style: ThemeHelper().buttonStyle(context),
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(5, 2, 5, 2),
                     child: Row(
@@ -55,7 +69,7 @@ class SuccessFulPage extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                      Get.to(FindTicketPage());
+                      Get.offAll((FindTicketPage()));
 
                   },
                 ),
@@ -64,7 +78,7 @@ class SuccessFulPage extends StatelessWidget {
               Container(
                 decoration: ThemeHelper().buttonBoxDecoration(context),
                 child: ElevatedButton(
-                  style: ThemeHelper().buttonStyle(),
+                  style: ThemeHelper().buttonStyle(context),
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(5, 2, 5, 2),
                     child: Row(

@@ -1,11 +1,12 @@
 import 'dart:convert';
-import 'package:get/get.dart';
 
 import '../../common/ctm_alert_widget.dart';
 import '../../models/country_model.dart';
 import '../../models/country_wise_area_model.dart';
-import '../../models/doc_type_model.dart';
 import '../../repository/country_repository.dart';
+import 'package:get/get.dart';
+
+import '../../models/doc_type_model.dart';
 
 class CountryController extends GetConnect {
   ///country init 01
@@ -29,9 +30,7 @@ class CountryController extends GetConnect {
     CountryRepository().countryNameRep().then((resValue) async {
       var bodyMap = json.decode(resValue.body);
 
-      var resCode = resValue.statusCode;
-      print('country status  : ' + bodyMap['status'].toString());
-      if (resCode == 200 || resCode == 201 || resCode == 202) {
+      print('country  status   : ' + bodyMap['status']);
         if (bodyMap['status'] == "success") {
           if (bodyMap['response'] == 200) {
             if (bodyMap['data'] != null) {
@@ -42,9 +41,9 @@ class CountryController extends GetConnect {
               print('lng Country :' + countryList.length.toString());
             }
           }
-        }
+
       } else {
-        print(' else error ');
+          CtmAlertDialog.apiServerErrorAlertDialog('Server Error :','');
       }
     }).onError((error, stackTrace) {
       print('Error :' + error.toString());
@@ -60,7 +59,7 @@ class CountryController extends GetConnect {
       var resCode = resValue.statusCode;
       print('area status  : ' + bodyMap['status'].toString());
 
-      if (resCode == 200 || resCode == 201 || resCode == 202) {
+
         if (bodyMap['status'] == "success") {
           if (bodyMap['response'] == 200) {
             if (bodyMap['data'] != null) {
@@ -73,9 +72,9 @@ class CountryController extends GetConnect {
                   'lng are :' + countryWiseAreaLocationList.length.toString());
             }
           }
-        }
+
       } else {
-        print(' else error ');
+          CtmAlertDialog.apiServerErrorAlertDialog('Server Error :','');
       }
     }).onError((error, stackTrace) {
       print('Error :' + error.toString());

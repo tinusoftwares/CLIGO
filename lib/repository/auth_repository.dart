@@ -1,22 +1,24 @@
 import 'dart:convert';
 
+import '../../common/api_url.dart';
+import '../../common/ctm_alert_widget.dart';
+import '../../common/restapi_status.dart';
 import 'package:http/http.dart' as http;
-
-import '../common/api_url.dart';
-import '../common/restapi_status.dart';
 
 class AuthRepository {
 
   Future loginRep(Map<String, String> loginMap) async {
     Uri url = Uri.parse(ApiURL.loginPostUrl);
     try {
-      final response = await http.post(url,
-          body: jsonEncode(loginMap), headers: RestApiStatus.headerMap);
+      final response = await http.post(url, body: jsonEncode(loginMap), headers: RestApiStatus.headerMap);
       print('bodyResponseLogin code :' + response.statusCode.toString());
+
       return response;
     } on Exception catch (exception) {
+      CtmAlertDialog.apiServerErrorAlertDialog('Alert', ' Server Error');
       throw (exception);
     } catch (error) {
+      CtmAlertDialog.apiServerErrorAlertDialog('Alert', ' Server Error');
       throw Exception(error);
     }
   }

@@ -1,13 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-
-
-import '../common/ctm_colors.dart';
-import '../common/ctm_strings.dart';
-import 'authentication/login_page.dart';
-import 'booking_process/booking_now_page.dart';
-import 'booking_process/find_tickets_page.dart';
+import '../../common/ctm_colors.dart';
+import '../../common/ctm_strings.dart';
+import '../../pages/booking_process/find_tickets_page.dart';
 
 class SplashScreen extends StatefulWidget {
   SplashScreen({Key? key}) : super(key: key);
@@ -35,7 +31,6 @@ class _SplashScreenState extends State<SplashScreen> {
         });
       }
     );
-
   }
 
   @override
@@ -43,25 +38,26 @@ class _SplashScreenState extends State<SplashScreen> {
 
     return Container(
       decoration: new BoxDecoration(
-        gradient: new LinearGradient(
-          colors: [Theme.of(context).colorScheme.secondary, Theme.of(context).primaryColor],
+       color: Theme.of(context).primaryColor
+        /* gradient: new LinearGradient(
+          colors: [Theme.of(context).primaryColor],
           begin: const FractionalOffset(0, 0),
           end: const FractionalOffset(1.0, 0.0),
           stops: [0.0, 1.0],
           tileMode: TileMode.clamp,
-        ),
+        ),*/
       ),
       child: AnimatedOpacity(
         opacity: _isVisible ? 1.0 : 0,
         duration: Duration(milliseconds: 1200),
         child: Center(
           child: Container(
-            height: 200.0,
-            width: 200.0,
+            height: 256.0,
+            width: 256.0,
             child: Center(
               child: ClipOval(
                 child:
-                Image.asset(CtmStrings.appLogoImagePNGPath,color: Theme.of(context).primaryColor,)
+                Image.asset(CtmStrings.appLogoImagePNGPath,)
               ),
             ),
             decoration: BoxDecoration(

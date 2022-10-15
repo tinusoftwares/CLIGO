@@ -7,9 +7,12 @@ import 'package:flutter_bus/pages/booking_process/seat_plan_page.dart';
 import 'package:flutter_bus/pages/company_info/about_page.dart';
 import 'package:flutter_bus/pages/company_info/policy_page.dart';
 import 'package:flutter_bus/pages/company_info/terms_condition_page.dart';
+import 'package:flutter_bus/pages/payment_method/paymnet_stripe.dart';
 import 'package:flutter_bus/pages/profile_settings/change_password_page.dart';
 import 'package:flutter_bus/pages/splash_screen.dart';
 import 'package:flutter_bus/pages/success_page/success_page.dart';
+
+
 import 'pages/authentication/forgot_password_page.dart';
 import 'pages/booking_process/find_tickets_page.dart';
 import 'pages/company_info/faq_page.dart';
@@ -41,39 +44,15 @@ class RouteGenerator{
         return MaterialPageRoute(builder: (_) =>  FindTicketPage());
       }
 
-      /// 02
-     /* case  '/booking_now' :{
-        return MaterialPageRoute(builder: (_) =>  BookingNowPage());
-      }*/
 
-     /// 03 pick and drop with seat plan
-     /* case  '/pick_and_drop' :{
-        return MaterialPageRoute(builder: (_) =>  PickupAndDropPage());
-      }*/
-
-     /// 04 don't need todo list
       case  '/seat_plan' :{
         return MaterialPageRoute(builder: (_) =>  SeatPlanPage());
       }
-
-      /// 05 payment system
-  /*    case  '/payment_system' :{
-        return MaterialPageRoute(builder: (_) =>  PaymentSystemPage());
-      }*/
 
       case  '/booking_history' :{
         return MaterialPageRoute(builder: (_) =>  BookingHistoryPage());
       }
 
-   /*   case  '/booking_history_details' :{
-        return MaterialPageRoute(builder: (_) =>  BookingHistoryDetailsPage());
-      }*/
-
-
-
-   /*   case  '/payment_system' :{
-        return MaterialPageRoute(builder: (_) =>  PaymentSystemPage());
-      }*/
 
 
       case  '/profile' :{
@@ -108,7 +87,6 @@ class RouteGenerator{
         return MaterialPageRoute(builder: (_) =>  FAQQuestionPage());
       }
 
-
       case  '/dynamic_seat_plan' :{
         return MaterialPageRoute(builder: (_) =>  SeatPlanPage());
       }
@@ -118,6 +96,9 @@ class RouteGenerator{
         return MaterialPageRoute(builder: (_) =>  SuccessFulPage());
       }
 
+      case  '/StripePayment' :{
+        return MaterialPageRoute(builder: (_) =>  StripePayment());
+      }
 
       default:
         return MaterialPageRoute(builder: (_) => Scaffold(body: SafeArea(child: Text('Route Error'))));

@@ -1,9 +1,8 @@
 import 'dart:convert';
-import 'package:get/get.dart';
-
 import '../../common/ctm_alert_widget.dart';
 import '../../models/seat_plan_model.dart';
 import '../../repository/seat_plan_repoitory.dart';
+import 'package:get/get.dart';
 
 
 class DynamicSeatPlanController extends GetConnect {
@@ -19,17 +18,15 @@ class DynamicSeatPlanController extends GetConnect {
   dynamicSeatPan(String tripId,String jData) {
     SeatPlanRepository().seatPlanDynamicRepo(tripId,jData).then((resValue) async {
       var bodyMap = json.decode(resValue.body);
-      var resCode = resValue.statusCode;
-      if (resCode == 200 || resCode == 201 || resCode == 202) {
+
         if (bodyMap['status'] == "success") {
           if (bodyMap['response'] == 200) {
             if (bodyMap['seatlayout'] != null) {
               seats.value=bodyMap['seatlayout'];
             }
           }
-        }
       } else {
-        print(' else error ');
+          CtmAlertDialog.apiServerErrorAlertDialog('Server Error :','');
       }
     }).onError((error, stackTrace) {
       print('Error :' + error.toString());

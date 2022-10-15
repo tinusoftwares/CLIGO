@@ -31,7 +31,7 @@ class OnlinePaymentController extends GetConnect {
       var bodyMap = json.decode(resValue.body);
       var resCode = resValue.statusCode;
       print('online options status  : ' + bodyMap['status'].toString());
-      if (resCode == 200 || resCode == 201 || resCode == 202) {
+
         if (bodyMap['status'] == "success") {
           if (bodyMap['response'] == 200) {
             if (bodyMap['data'] != null) {
@@ -44,8 +44,9 @@ class OnlinePaymentController extends GetConnect {
               }
             }
           }
-        }
+
       } else {
+      CtmAlertDialog.apiServerErrorAlertDialog('Server Error :','');
         print(' else error ');
       }
     }).onError((error, stackTrace) {
@@ -60,7 +61,7 @@ class OnlinePaymentController extends GetConnect {
       var bodyMap = json.decode(resValue.body);
       var resCode = resValue.statusCode;
       print('country status  : ' + bodyMap['status'].toString());
-      if (resCode == 200 || resCode == 201 || resCode == 202) {
+
         if (bodyMap['status'] == "success") {
           if (bodyMap['response'] == 200) {
             if (bodyMap['data'] != null) {
@@ -68,8 +69,9 @@ class OnlinePaymentController extends GetConnect {
               onlinePaymentModel.value = OnlinePaymentModel.fromJson(bodyMap['data']);
             }
           }
-        }
+
       } else {
+          CtmAlertDialog.apiServerErrorAlertDialog('Server Error :','');
         print(' else error ');
       }
     }).onError((error, stackTrace) {
@@ -85,7 +87,7 @@ class OnlinePaymentController extends GetConnect {
       var resCode = resValue.statusCode;
       print('pay stack status  : ' + bodyMap['status'].toString());
 
-      if (resCode == 200 || resCode == 201 || resCode == 202) {
+
         if (bodyMap['status'] == "success") {
           if (bodyMap['response'] == 200) {
             if (bodyMap['data'] != null) {
@@ -94,8 +96,8 @@ class OnlinePaymentController extends GetConnect {
                   OnlinePaymentModel.fromJson(bodyMap['data']);
             }
           }
-        }
       } else {
+          CtmAlertDialog.apiServerErrorAlertDialog('Server Error :','');
         print(' else error ');
       }
     }).onError((error, stackTrace) {
@@ -110,7 +112,7 @@ class OnlinePaymentController extends GetConnect {
       var bodyMap = json.decode(resValue.body);
       var resCode = resValue.statusCode;
       print('Stripe status  : ' + bodyMap['status'].toString());
-      if (resCode == 200 || resCode == 201 || resCode == 202) {
+
         if (bodyMap['status'] == "success") {
           if (bodyMap['response'] == 200) {
             if (bodyMap['data'] != null) {
@@ -119,10 +121,10 @@ class OnlinePaymentController extends GetConnect {
               onlinePaymentModel.value =
                   OnlinePaymentModel.fromJson(bodyMap['data']);
             }
-          }
+
         }
       } else {
-        print(' else error ');
+          CtmAlertDialog.apiServerErrorAlertDialog('Server Error :','');
       }
     }).onError((error, stackTrace) {
       print('Error :' + error.toString());
@@ -137,10 +139,7 @@ class OnlinePaymentController extends GetConnect {
         .then((resValue) async {
       var bodyMap = json.decode(resValue.body);
       print('Razor pay bodyMap ' + bodyMap.toString());
-      var resCode = resValue.statusCode;
-      print('Razor pay status  : ' + bodyMap['status'].toString());
-
-      if (resCode == 200 || resCode == 201 || resCode == 202) {
+      print('Razor pay response  : ' + bodyMap.toString());
         if (bodyMap['status'] == "success") {
           if (bodyMap['response'] == 200) {
             if (bodyMap['data'] != null) {
@@ -148,8 +147,9 @@ class OnlinePaymentController extends GetConnect {
                   OnlinePaymentModel.fromJson(bodyMap['data']);
             }
           }
-        }
+
       } else {
+          CtmAlertDialog.apiServerErrorAlertDialog('Server Error :','');
         print(' else error ');
       }
     }).onError((error, stackTrace) {

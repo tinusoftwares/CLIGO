@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import '../../common/ctm_colors.dart';
+import '../../common/ctm_strings.dart';
 import '../../common/ctm_style.dart';
+import '../../models/find_tickets_trip_list_model.dart';
+import '../../pages/review_section/reviews.dart';
+import 'package:get/get.dart';
 import '../../common/theme_helper.dart';
 import '../../controllers/booking/dynamic_seat_plan_controller.dart';
 import '../../local_db_sqflite/db_helper.dart';
-import '../../models/find_tickets_trip_list_model.dart';
+import '../../local_db_sqflite/db_helper_local.dart';
 import '../booking_process/pickup_and_drop_page.dart';
 import '../photos_section/photos_page.dart';
-import '../review_section/reviews.dart';
 import 'ctm_review_card_widget.dart';
 
 class BookingNowCardWidget extends StatelessWidget {
@@ -26,6 +28,8 @@ class BookingNowCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('money Symbel : '+CtmStrings.currencySymbol.toString());
+
     tripId = ticketListModel.tripid.toString();
     journeydate = journeydate.toString();
     print(' tripId +Date :' + tripId + ' ' + journeydate);
@@ -36,18 +40,18 @@ class BookingNowCardWidget extends StatelessWidget {
       //color: Colors.green,
       margin: EdgeInsets.symmetric(vertical: 1, horizontal: 1),
       padding: EdgeInsets.symmetric(vertical: 1, horizontal: 1),
-      height: 210,
+      height: MediaQuery.of(context).size.height/3,
       width: double.infinity,
       child: Card(
         elevation: 5,
         child: Row(
           children: [
             Expanded(
-              flex: 3,
+              flex: 5,
               child: _buildLeftCardUI(context),
             ),
             Expanded(
-              flex: 2,
+              flex: 5,
               child: _buildRightCardUI(context),
             ),
           ],
@@ -61,67 +65,93 @@ class BookingNowCardWidget extends StatelessWidget {
     return Container(
       // color: Colors.yellow,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+
         children: [
-          customTextFormatWithValueRowLine(
-              'Name', ticketListModel.companyName ?? 'no compnay'),
+          ctmTextFormatValueRow('Name', '', ticketListModel.companyName ?? 'no compnay'),
+          ctmTextFormatValueRow('Departure', '',ticketListModel.startTime ?? '00:00' + '[' + 'Dhaka' + ']'), // dhaka find tickets arg pass
+          ctmTextFormatValueRow('Arrival','', ticketListModel.endTime ?? '00:00' + '[' + 'Dhaka' + ']'),
 
-          customTextFormatWithValueRowLine(
-              'Departure',
-              ticketListModel.startTime ??
-                  '00:00' + '[' + 'Dhaka' + ']'), // dhaka find tickets arg pass
-          customTextFormatWithValueRowLine('Arrival',
-              ticketListModel.endTime ?? '00:00' + '[' + 'Dhaka' + ']'),
+          SizedBox(height: 10),
 
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              InkWell(
-                onTap: () {
-                  print('Photos Click');
-                  Get.to(PhotoPage());
-                },
-                child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade200,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    margin: EdgeInsets.symmetric(vertical: 2, horizontal: 2),
-                    padding: EdgeInsets.symmetric(vertical: 12, horizontal: 10),
-                    child: Text('Photos')),
-              ),
-              InkWell(
-                onTap: () {
-                  print('Review Click ');
-                  // _buildReviews();
-                  Get.to(Reviews());
-                },
-                child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade200,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    margin: EdgeInsets.symmetric(vertical: 2, horizontal: 2),
-                    padding: EdgeInsets.symmetric(vertical: 12, horizontal: 10),
-                    child: Text('Reviews')),
-              ),
-              InkWell(
-                onTap: () {
-                  print('Policy Click');
-                  _buildAlertPolicy(context);
-                },
-                child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade200,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    margin: EdgeInsets.symmetric(vertical: 2, horizontal: 2),
-                    padding: EdgeInsets.symmetric(vertical: 12, horizontal: 10),
-                    child: Text('Policy')),
-              ),
-            ],
+          InkWell(
+            onTap: () {
+              print('Photos Click');
+              Get.to(PhotoPage());
+            },
+            child: Container(
+
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade200,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                margin: EdgeInsets.symmetric(vertical: 2, horizontal: 2),
+                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.image,size: 18,color: Theme.of(context).primaryColor,),
+                    SizedBox(width: 5,),
+                    Center(child: Text('Photos',style: TextStyle(fontSize: 12,fontWeight: FontWeight.bold),),),
+                  ],
+                )),
+          ),
+          SizedBox(height: 5),
+          InkWell(
+            onTap: () {
+              print('Policy Click');
+              _buildAlertPolicy(context);
+            },
+            child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade200,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                margin: EdgeInsets.symmetric(vertical: 2, horizontal: 1),
+                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                child:
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.policy,size: 18,color: Theme.of(context).primaryColor,),
+                    SizedBox(width: 5,),
+                    Center(child: Text('Policy',style: TextStyle(fontSize: 12,fontWeight: FontWeight.bold),),),
+                  ],
+                )
+                /*Center(child: Text('Policy',style: TextStyle(fontSize: 12,fontWeight: FontWeight.bold),)
+
+                )*/
+            ),
+          ),
+          SizedBox(height: 5),
+          InkWell(
+            onTap: () {
+              print('Review Click ');
+
+              Get.to(Reviews());
+            },
+            child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade200,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                margin: EdgeInsets.symmetric(vertical: 2, horizontal: 2),
+                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                child:
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.reviews,size: 18,color: Theme.of(context).primaryColor,),
+                    SizedBox(width: 5,),
+                    Center(child: Text('Reviews',style: TextStyle(fontSize: 12,fontWeight: FontWeight.bold),),),
+                  ],
+                )
+                //Center(child: Text('Reviews',style: TextStyle(fontSize: 12,fontWeight: FontWeight.bold),))
+            ),
           ),
         ],
       ),
@@ -131,35 +161,26 @@ class BookingNowCardWidget extends StatelessWidget {
   ///Right site
   _buildRightCardUI(BuildContext context) {
     return Container(
+      margin: EdgeInsets.symmetric(vertical: 2,horizontal: 0),
       // color: Colors.deepOrange,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           ticketListModel.specialFair == ""
-              ? Container()
-              : customTextFormatWithValueRowLine(
-                  'Special Fare', ticketListModel.specialFair ?? '0'),
-          ticketListModel.adultFair == ""
-              ? Container()
-              : customTextFormatWithValueRowLine(
-                  'Adult Fare', ticketListModel.adultFair ?? '0'),
-          ticketListModel.childFair == ""
-              ? SizedBox()
-              : customTextFormatWithValueRowLine(
-                  'Child Fare', ticketListModel.childFair ?? '0'),
-          customTextFormatWithValueRowLine(
-              'Duration', ticketListModel.journeyHour ?? 'hours' + ' hrs'),
-          customTextFormatWithValueRowLine(
-              'Available', ticketListModel.availableSeat.toString()),
+              ? Container() : ctmTextFormatValueRow('Special Fare', CtmStrings.currencySymbol,  ticketListModel.specialFair ?? '0'),
+
+          ticketListModel.childFair == "" ? Container() : ctmTextFormatValueRow('Child Fare',CtmStrings.currencySymbol, ticketListModel.childFair ?? '0'),
+          ticketListModel.adultFair == "" ? Container() : ctmTextFormatValueRow('Adult Fare',CtmStrings.currencySymbol, ticketListModel.adultFair ?? '0'),
+          ctmTextFormatValueRow('Duration','', ticketListModel.journeyHour ?? 'hours' + ' hrs'),
+          ctmTextFormatValueRow('Available','', ticketListModel.availableSeat.toString()),
 
           ///todo rating in future modify
-          customTextFormatWithValueRowLine(
-              'Rating', ticketListModel.rating ?? '0.0'),
+          ctmTextFormatValueRow('Rating', '',ticketListModel.rating ?? '0.0'),
 
           Container(
             decoration: ThemeHelper().buttonBoxDecoration(context),
             child: ElevatedButton(
-              style: ThemeHelper().buttonStyle(),
+              style: ThemeHelper().buttonStyle(context),
               child: Padding(
                 padding: EdgeInsets.fromLTRB(5, 2, 5, 2),
                 child: Row(
@@ -174,20 +195,17 @@ class BookingNowCardWidget extends StatelessWidget {
                     SizedBox(
                       width: 5,
                     ),
-                    Text(
-                      'Book Now',
-                      style: ctmPaymentBtnTxtStyleSize14,
-                    ),
+                    Text('Book Now', style: ctmPaymentBtnTxtStyleSize14,),
                   ],
                 ),
               ),
               onPressed: () {
-                print('token main :' + DBHelper.object.getToken().toString());
+                print('token main :' + DBHelper01.getToken('token').toString());
                 print('booking process step-3');
-                if (DBHelper.object.getToken() == null) {
-                  Get.toNamed('/login');
-                } else {
+                if (DBHelper01.getToken('token') != null) {
                   Get.to(PickupAndDropPage(ticketListModel));
+                } else {
+                  Get.toNamed('/login');
                 }
               },
             ),
@@ -198,7 +216,7 @@ class BookingNowCardWidget extends StatelessWidget {
   }
 
   ///Format Row Line Text Format
-  Widget customTextFormatWithValueRowLine(String key, String value) {
+  Widget ctmTextFormatValueRow(String key, String currencySymbol, String value) {
     return Padding(
       padding: const EdgeInsets.only(left: 10),
       child: Row(
@@ -206,7 +224,7 @@ class BookingNowCardWidget extends StatelessWidget {
           Text(key + ' : ',
               style: ctmTxtFormatKeyStyle),
           Text(
-            value,
+            currencySymbol +' '+ value,
             maxLines: 2,
             overflow: TextOverflow.clip,
           ),
@@ -229,7 +247,7 @@ class BookingNowCardWidget extends StatelessWidget {
             },
             child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.green,
+                  color: Theme.of(context).primaryColor,
                   borderRadius: BorderRadius.circular(5),
                 ),
                 margin: EdgeInsets.symmetric(vertical: 2, horizontal: 2),
@@ -243,6 +261,9 @@ class BookingNowCardWidget extends StatelessWidget {
       ),
     );
   }
+
+
+
 
   /// Bottom Sheet Review
 

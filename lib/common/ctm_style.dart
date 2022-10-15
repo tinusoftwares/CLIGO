@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'ctm_colors.dart';
+import '../../common/ctm_colors.dart';
 
 TextStyle ctmPaymentBtnTxtStyle =
     TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: CtmColors.appWhiteColor);

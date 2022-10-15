@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../common/ctm_colors.dart';
 import 'package:get/get.dart';
-
-import 'ctm_colors.dart';
 /*
   app alert dialog define here
  */
@@ -9,7 +8,9 @@ import 'ctm_colors.dart';
 class CtmAlertDialog {
 
   static apiServerErrorAlertDialog(String title, String error,) {
-    Get.snackbar(title, error.toString());
+    Get.snackbar(title, error.toString(),
+        backgroundColor: CtmColors.appWhiteColor, colorText: CtmColors.appRedColor
+    );
   }
 
   static fieldAlertDialog(String title, String error) {
@@ -19,6 +20,6 @@ class CtmAlertDialog {
 
   static successAlertDialog(String title, String error) {
     Get.snackbar(title, error.toString(),
-        backgroundColor: Colors.green, colorText: Colors.white);
+        backgroundColor: CtmColors.appWhiteColor, colorText: Colors.green);
   }
 }

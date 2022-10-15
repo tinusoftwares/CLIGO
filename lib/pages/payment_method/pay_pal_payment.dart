@@ -1,6 +1,5 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'PaypalServices.dart';
 
@@ -59,7 +58,7 @@ class PaypalPaymentState extends State<PaypalPayment> {
             },
           ),
         );
-        // _scaffoldKey.currentState?.showSnackBar(snackBar);
+    //    _scaffoldKey.currentState?.showSnackBar(snackBar);
       }
     });
   }
@@ -148,7 +147,7 @@ class PaypalPaymentState extends State<PaypalPayment> {
     if (checkoutUrl != null) {
       return Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).backgroundColor,
+
           leading: GestureDetector(
             child: Icon(Icons.arrow_back_ios),
             onTap: () => Navigator.pop(context),

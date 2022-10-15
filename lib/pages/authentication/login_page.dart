@@ -1,6 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import '../../common/ctm_alert_widget.dart';
 import '../../common/ctm_colors.dart';
 import '../../common/ctm_margin.dart';
 import '../../common/ctm_padding.dart';
@@ -9,6 +11,11 @@ import '../../common/ctm_strings.dart';
 import '../../common/ctm_style.dart';
 import '../../common/theme_helper.dart';
 import '../../controllers/auth/login_controller.dart';
+import '../../local_db_sqflite/db_helper_local.dart';
+import '../../repository/auth_repository.dart';
+import 'package:get/get.dart';
+import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart';
+
 import 'registration_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -21,6 +28,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
 
+  late  ProgressDialog pr;
   TextEditingController mailTextEditCTR = TextEditingController();
   TextEditingController phoneTextEditCTR = TextEditingController();
   TextEditingController passTextEditCTR = TextEditingController();
@@ -32,6 +40,21 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    pr=ProgressDialog(context);
+    pr.style(
+        message: 'Loading ...',
+        borderRadius: 10.0,
+        backgroundColor: Colors.white,
+        progressWidget: CircularProgressIndicator(),
+        elevation: 10.0,
+        insetAnimCurve: Curves.easeInOut,
+        progress: 0.0,
+        maxProgress: 100.0,
+        progressTextStyle: TextStyle(
+            color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w400),
+        messageTextStyle: TextStyle(
+            color: Colors.black, fontSize: 19.0, fontWeight: FontWeight.w600)
+    );
     return Scaffold(
       backgroundColor: CtmColors.appWhiteColor,
       body: _buildLoginBody(),
@@ -47,8 +70,6 @@ class _LoginPageState extends State<LoginPage> {
               height: CtmSizes.headerHeight,
               child: Image.asset(
                   CtmStrings.appLogoImagePNGPath,
-
-                color: Theme.of(context).primaryColor,
               )),
           SafeArea(
             child: Container(
@@ -146,7 +167,7 @@ class _LoginPageState extends State<LoginPage> {
                     CtmStrings.loginPass, CtmStrings.enterYPassword),
                 validator: (val) {
                   if (val!.isEmpty) {
-                    return CtmStrings.plzEnterValidPhone;
+                    return CtmStrings.plzEnterYPassword;
                   }
                   return null;
                 },
@@ -173,7 +194,7 @@ class _LoginPageState extends State<LoginPage> {
             Container(
               decoration: ThemeHelper().buttonBoxDecoration(context),
               child: ElevatedButton(
-                style: ThemeHelper().buttonStyle(),
+                style: ThemeHelper().buttonStyle(context),
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
                   child: Text(
@@ -197,18 +218,55 @@ class _LoginPageState extends State<LoginPage> {
                     };
 
                     print(loginMap);
+                    pr.show();
+                    AuthRepository().loginRep(loginMap).then((resValue) async {
+                      var bodyMap = json.decode(resValue.body);
 
-                    loginController.loginCTR(loginMap);
+                      var resCode = resValue.statusCode;
+                      print('bodyMap login bc'+bodyMap.toString());
 
-                    print('mail : ' + mailTextEditCTR.text);
-                    print('number : ' + phoneTextEditCTR.text);
-                    print('pass : ' + passTextEditCTR.text);
+                      if (resCode == 200 || resCode == 201 || resCode == 202) {
+                        if (bodyMap['status'] == "success") {
+                          if (bodyMap['response'] == 200) {
+                            if (bodyMap['data'] != null) {
+                              print(bodyMap['data']);
+                              var token = bodyMap['data'];
+
+                              DBHelper01.setStore('token',token);
+                              DBHelper01.getToken('token');
+
+                              CtmAlertDialog.successAlertDialog('Login', 'Successful!');
+                              pr.hide();
+                              Get.offAllNamed('/find_ticket');
+                            }else{
+                              pr.hide();
+                              CtmAlertDialog.apiServerErrorAlertDialog('Server Error :','');
+                            }
+                          }else{
+                            pr.hide();
+                            CtmAlertDialog.apiServerErrorAlertDialog('Server Error :','');
+                          }
+                        }else{
+                          pr.hide();
+                          CtmAlertDialog.apiServerErrorAlertDialog('Server Error :',bodyMap['message']);
+                        }
+                      } else {
+                        pr.hide();
+                        CtmAlertDialog.apiServerErrorAlertDialog('Server Error :',bodyMap['message']);
+                      }
+                    }).onError((error, stackTrace) {
+                      print('Error :' + error.toString());
+                      print('stackTrace :' + stackTrace.toString());
+                      CtmAlertDialog.apiServerErrorAlertDialog('Server Error :',error.toString());
+                      pr.hide();
+                    });
+
                   }
 
-                  Get.offAllNamed('/find_ticket');
                 },
               ),
             ),
+
             Container(
               margin: EdgeInsets.fromLTRB(10, 30, 10, 20),
               //child: Text('Don\'t have an account? Create'),
@@ -229,4 +287,5 @@ class _LoginPageState extends State<LoginPage> {
           ],
         ));
   }
+
 }

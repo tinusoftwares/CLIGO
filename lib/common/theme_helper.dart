@@ -1,8 +1,7 @@
 
 import 'package:flutter/material.dart';
+import '../../common/ctm_colors.dart';
 import 'package:hexcolor/hexcolor.dart';
-
-import 'ctm_colors.dart';
 
 class ThemeHelper{
 
@@ -32,7 +31,7 @@ class ThemeHelper{
 
   BoxDecoration buttonBoxDecoration(BuildContext context, [String color1 = "", String color2 = ""]) {
     Color c1 = Theme.of(context).primaryColor;
-    Color c2 = Theme.of(context).colorScheme.secondary;
+    Color c2 = Theme.of(context).primaryColor;
     if (color1.isEmpty == false) {
       c1 = HexColor(color1);
     }
@@ -50,15 +49,15 @@ class ThemeHelper{
         stops: [0.0, 1.0],
         colors: [
           c1,
-          c2,
+         c2,
         ],
       ),
-      color: Colors.deepPurple.shade300,
+      color: Theme.of(context).primaryColor,
       borderRadius: BorderRadius.circular(10),
     );
   }
 
-  ButtonStyle buttonStyle() {
+  ButtonStyle buttonStyle(BuildContext context) {
     return ButtonStyle(
       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
         RoundedRectangleBorder(
@@ -66,7 +65,7 @@ class ThemeHelper{
         ),
       ),
       minimumSize: MaterialStateProperty.all(Size(50, 50)),
-      backgroundColor: MaterialStateProperty.all(Colors.transparent),
+      backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor),
       shadowColor: MaterialStateProperty.all(Colors.transparent),
     );
   }

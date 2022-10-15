@@ -1,8 +1,7 @@
 import 'dart:convert';
-import 'package:get/get.dart';
-
 import '../../common/ctm_alert_widget.dart';
 import '../../repository/booking_repository.dart';
+import 'package:get/get.dart';
 
 class CreateTicketBookingController extends GetConnect {
 
@@ -10,20 +9,18 @@ class CreateTicketBookingController extends GetConnect {
   ticketBookingCTR(Map<String, String> bookingInfoMap) {
     BookingRepository().creteTicketBookingRep(bookingInfoMap).then((resValue) async {
       var bodyMap = json.decode(resValue.body);
-      var resCode = resValue.statusCode;
-      print('create ticket Booking status  : ' + bodyMap['status'].toString());
 
-      if (resCode == 200 || resCode == 201 || resCode == 202) {
+      print('create ticket Booking response  : ' + bodyMap.toString());
         if (bodyMap['status'] == "success") {
           if (bodyMap['response'] == 200) {
             if (bodyMap['data'] != null) {
                print(bodyMap['data']);
             }
           }
+        }else{
+          CtmAlertDialog.apiServerErrorAlertDialog('Server Error :','');
         }
-      } else {
-        print(' else error ');
-      }
+
     }).onError((error, stackTrace) {
       print('Error :' + error.toString());
       print('stackTrace :' + stackTrace.toString());
@@ -38,7 +35,7 @@ class CreateTicketBookingController extends GetConnect {
       var bodyMap = json.decode(resValue.body);
       var resCode = resValue.statusCode;
       print('booking Unpaid status  : ' + bodyMap['status'].toString());
-      if (resCode == 200 || resCode == 201 || resCode == 202) {
+
         if (bodyMap['status'] == "success") {
           if (bodyMap['response'] == 200) {
             if (bodyMap['data'] != null) {
@@ -46,9 +43,8 @@ class CreateTicketBookingController extends GetConnect {
 
             }
           }
-        }
       } else {
-        print(' else error ');
+          CtmAlertDialog.apiServerErrorAlertDialog('Server Error :','');
       }
     }).onError((error, stackTrace) {
       print('Error :' + error.toString());

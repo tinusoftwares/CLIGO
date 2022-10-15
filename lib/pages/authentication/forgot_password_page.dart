@@ -8,7 +8,6 @@ import '../../common/ctm_padding.dart';
 import '../../common/ctm_sizes.dart';
 import '../../common/ctm_strings.dart';
 import '../../common/theme_helper.dart';
-import 'forgot_password_verification_page.dart';
 import 'login_page.dart';
 import '../widgets/ctm_header_widget.dart';
 
@@ -52,7 +51,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black54
                               ),
-                              // textAlign: TextAlign.center,
+
                             ),
                             SizedBox(height: 10,),
                             Text(CtmStrings.emailAccountSubTitle,
@@ -108,7 +107,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           Container(
             decoration: ThemeHelper().buttonBoxDecoration(context),
             child: ElevatedButton(
-              style: ThemeHelper().buttonStyle(),
+              style: ThemeHelper().buttonStyle(context),
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
                 child: Text(CtmStrings.send.toUpperCase(),

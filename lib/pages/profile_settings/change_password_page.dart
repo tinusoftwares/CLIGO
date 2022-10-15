@@ -5,10 +5,14 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 
 import 'package:flutter/gestures.dart';
-import 'package:get/get.dart';
 import '../../common/ctm_colors.dart';
 import '../../common/ctm_strings.dart';
+
 import '../../common/theme_helper.dart';
+import '../../pages/authentication/login_page.dart';
+import '../../pages/widgets/ctm_header_widget.dart';
+import '../../repository/auth_repository.dart';
+import 'package:get/get.dart';
 import '../../controllers/country_controller/CountryController.dart';
 
 class ChangePasswordPage extends StatefulWidget {
@@ -142,7 +146,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     return Container(
       decoration: ThemeHelper().buttonBoxDecoration(context),
       child: ElevatedButton(
-        style: ThemeHelper().buttonStyle(),
+        style: ThemeHelper().buttonStyle(context),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
           child: Text(

@@ -1,6 +1,7 @@
 class CompanyInfoModel {
   String? id;
   String? title;
+  String? question;
   String? subTitle;
   String? description;
   String? createdAt;
@@ -10,6 +11,7 @@ class CompanyInfoModel {
   CompanyInfoModel(
       {this.id,
         this.title,
+        this.question,
         this.subTitle,
         this.description,
         this.createdAt,
@@ -19,6 +21,7 @@ class CompanyInfoModel {
   CompanyInfoModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
+    question = json['question'];
     subTitle = json['sub_title'];
     description = json['description'];
     createdAt = json['created_at'];
@@ -30,6 +33,7 @@ class CompanyInfoModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['title'] = this.title;
+    data['question'] = this.question;
     data['sub_title'] = this.subTitle;
     data['description'] = this.description;
     data['created_at'] = this.createdAt;

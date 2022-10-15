@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_bus/pages/payment_method/pay_pal_payment.dart';
-
 import '../../common/ctm_colors.dart';
+import '../../pages/payment_method/pay_pal_payment.dart';
 
 
 class makePayment extends StatefulWidget {

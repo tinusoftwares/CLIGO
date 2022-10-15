@@ -14,7 +14,7 @@ class PaypalServices {
 
 
 
-  // for getting the access token from Paypal
+
   Future<String> getAccessToken() async {
     try {
       var client = BasicAuthClient(clientId, secret);
@@ -29,7 +29,7 @@ class PaypalServices {
     }
   }
 
-  // for creating the payment request with Paypal
+
   Future<Map<String, String>> createPaypalPayment(
       transactions, accessToken) async {
     try {
@@ -68,7 +68,7 @@ class PaypalServices {
     }
   }
 
-  // for executing the payment transaction
+
   Future<String> executePayment(url, payerId, accessToken) async {
     try {
       var response = await http.post(url,

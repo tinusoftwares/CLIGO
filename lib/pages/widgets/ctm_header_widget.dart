@@ -1,14 +1,11 @@
-// This widget will draw header section of all page. Wich you will get with the project source code.
 
 import 'package:flutter/material.dart';
-
 import '../../common/ctm_colors.dart';
 
 class HeaderWidget extends StatefulWidget {
   final double _height;
   final bool _showIcon;
   final IconData _icon;
-
 
   const HeaderWidget(this._height, this._showIcon, this._icon, {Key? key}) : super(key: key);
 
@@ -36,7 +33,7 @@ class _HeaderWidgetState extends State<HeaderWidget> {
                 gradient: new LinearGradient(
                     colors: [
                       Theme.of(context).primaryColor.withOpacity(0.4),
-                      Theme.of(context).accentColor.withOpacity(0.2),
+                      Theme.of(context).primaryColor.withOpacity(0.2),
                     ],
                     begin: const FractionalOffset(0.0, 0.0),
                     end: const FractionalOffset(1.0, 0.0),
@@ -60,7 +57,7 @@ class _HeaderWidgetState extends State<HeaderWidget> {
                 gradient: new LinearGradient(
                     colors: [
                       Theme.of(context).primaryColor.withOpacity(0.4),
-                      Theme.of(context).accentColor.withOpacity(0.4),
+                      Theme.of(context).primaryColor.withOpacity(0.4),
                     ],
                     begin: const FractionalOffset(0.0, 0.0),
                     end: const FractionalOffset(1.0, 0.0),
@@ -84,7 +81,7 @@ class _HeaderWidgetState extends State<HeaderWidget> {
                 gradient: new LinearGradient(
                     colors: [
                       Theme.of(context).primaryColor,
-                      Theme.of(context).accentColor,
+                      Theme.of(context).primaryColor,
                     ],
                     begin: const FractionalOffset(0.0, 0.0),
                     end: const FractionalOffset(1.0, 0.0),
@@ -135,7 +132,6 @@ class _HeaderWidgetState extends State<HeaderWidget> {
               ),
             ),
           ),
-
         ],
       ),
     );

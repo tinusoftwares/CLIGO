@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-
 import '../../models/company_info_model.dart';
 
 class CompanyInfoCardWidget extends StatelessWidget {
@@ -13,4 +12,5 @@ class CompanyInfoCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(child: Text('Company Card Info : '+companyInfoModel.toString()),);
   }
+
 }

@@ -25,8 +25,8 @@ class _CtmHeaderListTitleWidgetState extends State<CtmHeaderListTitleWidget> {
   @override
   Widget build(BuildContext context) {
     return  ListTile(
-      leading: Icon(widget.iconPath, size: _drawerIconSize,color: Theme.of(context).colorScheme.secondary,),
-      title: Text(widget.titleName,style: TextStyle(fontSize: _drawerFontSize,color: Theme.of(context).colorScheme.secondary),),
+      leading: Icon(widget.iconPath, size: _drawerIconSize,color: Theme.of(context).primaryColor,),
+      title: Text(widget.titleName,style: TextStyle(fontSize: _drawerFontSize,color: Theme.of(context).primaryColor,fontWeight: FontWeight.bold),),
       onTap:widget.onTapTitle
     );
   }

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
 import '../../common/ctm_colors.dart';
 import '../../common/ctm_strings.dart';
 import '../../controllers/profile/profile_controller.dart';
 import '../../local_db_sqflite/db_helper.dart';
 import '../../models/profile_info_model.dart';
-import 'ctm_header_listtitle_widget.dart';
+import '../../pages/widgets/ctm_header_listtitle_widget.dart';
+import 'package:get/get.dart';
+
+import '../../local_db_sqflite/db_helper_local.dart';
 
 class DrawerWidget extends StatefulWidget {
   const DrawerWidget({Key? key}) : super(key: key);
@@ -47,15 +48,56 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     stops: [0.0, 1.0],
                     colors: [
                       Theme.of(context).primaryColor,
-                      Theme.of(context).accentColor,
+                      Theme.of(context).primaryColor,
                     ],
                   ),
                 ),
                 child:
-                 Obx((){
+
+                Column(
+                  children: [
+                    Container(
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          border: Border.all(
+                              width: 5, color: CtmColors.appWhiteColor),
+                          color: CtmColors.appWhiteColor,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 20,
+                              offset: const Offset(5, 5),
+                            ),
+                          ],
+                        ),
+                        child: Image.network(
+                          'https://bdtask-demo.com/backend/public/image/websetting/1655978324_10b0faacf09c0386ba34.png',
+                          width: 50,
+                          height: 50,
+                          color: Colors.green,
+                        )
+                      //Icon(Icons.person, size: 50, color: Colors.grey.shade300,),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      'App Name : '+CtmStrings.appName,
+                      style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.normal,
+                          color: CtmColors.appWhiteColor),
+                    ),
+
+                  ],
+                )
+               /*  Obx((){
                    if (profileController.isLoadingData.value) {
                      ProfileInfoModel profileInfo = profileController.profile.value;
-                     return    Column(
+                     print('mail >>:'+profileInfo.loginEmail.toString());
+                     print('Name  >>:'+profileInfo.lastName.toString());
+                      return    Column(
                        children: [
                          Container(
                              padding: EdgeInsets.all(10),
@@ -84,14 +126,14 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                            height: 10,
                          ),
                          Text(
-                           profileInfo.lastName??'',
+                           profileInfo.lastName??'user name',
                            style: TextStyle(
                                fontSize: 12,
                                fontWeight: FontWeight.normal,
                                color: CtmColors.appWhiteColor),
                          ),
                          Text(
-                   profileInfo.loginEmail.toString(),
+                   profileInfo.loginEmail??'example@gamil.com',
                            style: TextStyle(
                                fontSize: 12,
                                fontWeight: FontWeight.normal,
@@ -99,7 +141,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                          ),
                        ],
                      );
-                   } else {
+                   }
+                   else {
                      return    Column(
                        children: [
                          Container(
@@ -145,17 +188,15 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                        ],
                      );
                    }
-                 })
+                 })*/
 
               ),
-
-
 
               CtmHeaderListTitleWidget(
                   titleName: "Home",
                   iconPath: Icons.home,
                   onTapTitle: () => Get.toNamed('/find_ticket')),
-              DBHelper.object.getToken() != null
+              DBHelper01.getToken('token') != null
                   ? Container()
                   :
               CtmHeaderListTitleWidget(
@@ -163,7 +204,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   iconPath: Icons.login,
                   onTapTitle: () => Get.toNamed('/login')),
 
-              DBHelper.object.getToken() == null
+              DBHelper01.getToken('token')== null
                   ? Container()
                   : CtmHeaderListTitleWidget(
                       titleName: "Booking History",
@@ -189,7 +230,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   titleName: "Question",
                   iconPath: Icons.question_mark,
                   onTapTitle: () => Get.toNamed('/company_question')),
-              DBHelper.object.getToken() == null
+              DBHelper01.getToken('token') == null
                   ? Container()
                   :
               CtmHeaderListTitleWidget(
@@ -197,6 +238,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   iconPath: Icons.logout,
                   onTapTitle: () {
                     print(' Logout Click');
+                     DBHelper01().logout();
+                    Get.toNamed('/login');
                   }),
 
               Container(
@@ -224,4 +267,5 @@ class _DrawerWidgetState extends State<DrawerWidget> {
       ),
     );
   }
+
 }

@@ -1,11 +1,10 @@
 PODS:
   - Flutter (1.0.0)
+  - flutter_paystack (0.0.1):
+    - Flutter
   - fluttertoast (0.0.2):
     - Flutter
     - Toast
-  - FMDB (2.7.5):
-    - FMDB/standard (= 2.7.5)
-  - FMDB/standard (2.7.5)
   - hexcolor (0.0.1):
     - Flutter
   - package_info_plus (0.4.5):
@@ -18,9 +17,6 @@ PODS:
     - razorpay-pod
   - shared_preferences_ios (0.0.1):
     - Flutter
-  - sqflite (0.0.2):
-    - Flutter
-    - FMDB (>= 2.7.5)
   - Stripe (22.5.1):
     - Stripe/Stripe3DS2 (= 22.5.1)
     - StripeApplePay (= 22.5.1)
@@ -43,24 +39,29 @@ PODS:
   - StripeUICore (22.5.1):
     - StripeCore (= 22.5.1)
   - Toast (4.0.0)
+  - video_player_avfoundation (0.0.1):
+    - Flutter
+  - wakelock (0.0.1):
+    - Flutter
   - webview_flutter_wkwebview (0.0.1):
     - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
+  - flutter_paystack (from `.symlinks/plugins/flutter_paystack/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - hexcolor (from `.symlinks/plugins/hexcolor/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
   - razorpay_flutter (from `.symlinks/plugins/razorpay_flutter/ios`)
   - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
-  - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - stripe_ios (from `.symlinks/plugins/stripe_ios/ios`)
+  - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/ios`)
+  - wakelock (from `.symlinks/plugins/wakelock/ios`)
   - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/ios`)
 
 SPEC REPOS:
   trunk:
-    - FMDB
     - razorpay-pod
     - Stripe
     - StripeApplePay
@@ -72,6 +73,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
+  flutter_paystack:
+    :path: ".symlinks/plugins/flutter_paystack/ios"
   fluttertoast:
     :path: ".symlinks/plugins/fluttertoast/ios"
   hexcolor:
@@ -84,24 +87,25 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/razorpay_flutter/ios"
   shared_preferences_ios:
     :path: ".symlinks/plugins/shared_preferences_ios/ios"
-  sqflite:
-    :path: ".symlinks/plugins/sqflite/ios"
   stripe_ios:
     :path: ".symlinks/plugins/stripe_ios/ios"
+  video_player_avfoundation:
+    :path: ".symlinks/plugins/video_player_avfoundation/ios"
+  wakelock:
+    :path: ".symlinks/plugins/wakelock/ios"
   webview_flutter_wkwebview:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
 
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  flutter_paystack: 50021637b71e7712780744f69d2843e71b65175d
   fluttertoast: 16fbe6039d06a763f3533670197d01fc73459037
-  FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   hexcolor: fdfb9c4258ad96e949c2dbcdf790a62194b8aa89
   package_info_plus: 6c92f08e1f853dc01228d6f553146438dafcd14e
   path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
   razorpay-pod: 3ec6fe82e7d5927013cfbbef81a880188c86b077
   razorpay_flutter: 84b3bfd206ae9c9c2a9ba585524a1b3d8102b6c1
   shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
-  sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
   Stripe: 2b2decd03146e08a350960966d41f3028c2eac29
   stripe_ios: e94186250816de030881ced3399154eab186e439
   StripeApplePay: b14f06ac6fc24b56704c1e598149ed0cc45e166f
@@ -109,6 +113,8 @@ SPEC CHECKSUMS:
   StripeFinancialConnections: 982115b82af429968d8aa78d329a42ed7ba3feab
   StripeUICore: 08c1efbd7e3c54ee7fa74334a37a1d4c08ba944d
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
+  video_player_avfoundation: e489aac24ef5cf7af82702979ed16f2a5ef84cff
+  wakelock: d0fc7c864128eac40eba1617cb5264d9c940b46f
   webview_flutter_wkwebview: b7e70ef1ddded7e69c796c7390ee74180182971f
 
 PODFILE CHECKSUM: 4e8f8b2be68aeea4c0d5beb6ff1e79fface1d048

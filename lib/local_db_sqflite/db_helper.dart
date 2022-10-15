@@ -1,3 +1,4 @@
+/*
 
 
 import 'dart:convert';
@@ -28,7 +29,8 @@ class DBHelper {
     await db.save();
   }
 
- /* Future<void> setUserData(UserModel user) async {
+ */
+/* Future<void> setUserData(UserModel user) async {
     String userString = jsonEncode(user);
     GetStorage db = GetStorage(DbStrings.db_name);
     await db.write(DbStrings.user_data, userString);
@@ -39,7 +41,8 @@ class DBHelper {
     GetStorage db = GetStorage(DbStrings.db_name);
     String userString = db.read(DbStrings.user_data);
     return UserModel.fromJson(jsonDecode(userString));
-  }*/
+  }*//*
+
 
   /// play store update
 
@@ -79,3 +82,4 @@ class DbStrings {
 }
 
 
+*/

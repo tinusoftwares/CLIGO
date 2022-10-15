@@ -1,19 +1,10 @@
-/*
-  Developer Info
-  Proejct Name : Bus 365
-  Purpose : Bus Ticket Management
-  Developer Name : Adnan Morshed
-  Project Starting Date : 10/8/2022
-  Duration Time : 10 working days
-  Project End Date :
- App ful string define here
- */
+
 
 class CtmStrings{
 
    ///------------------ Web  Setting config  -------------
 
-   static String appName ="Bus ";
+   static String appName ="CLIGO ";
    static String appVersion ="1.0.0";
    static String language ="en";
    static String headerLogo ="";
@@ -31,12 +22,12 @@ class CtmStrings{
 
    static String fontFamily ="";
    static String taxType ="";
-   static String maxTicket ="4";
-   static String country ="BD";
+   static String maxTicket ="1";
+   static String country ="IN";
    static String currencyCountry ="";
    static String timezone ="";
-   static String currencyCode ="BDT";
-   static String currencySymbol ="৳";
+   static String currencyCode ="INR";
+   static String currencySymbol ="₹";
 
 ///------------------ App String  -------------
 

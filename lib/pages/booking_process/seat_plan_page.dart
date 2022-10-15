@@ -1,15 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
 import '../../common/ctm_colors.dart';
 import '../../common/ctm_strings.dart';
-import '../../common/theme_helper.dart';
-
 import '../../controllers/booking/dynamic_seat_plan_controller.dart';
-import '../profile_settings/profile_page.dart';
-
+import 'package:get/get.dart';
 class SeatPlanPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {

@@ -1,9 +1,8 @@
 import 'dart:convert';
 
+import '../../common/api_url.dart';
+import '../../common/restapi_status.dart';
 import 'package:http/http.dart' as http;
-
-import '../common/api_url.dart';
-import '../common/restapi_status.dart';
 
 class BookingRepository {
 
@@ -36,6 +35,8 @@ class BookingRepository {
       throw (exception);
     } catch (error) {
       throw Exception(error);
+
+
     }
   }
 

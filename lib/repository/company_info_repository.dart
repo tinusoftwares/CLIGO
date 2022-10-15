@@ -1,8 +1,7 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
-import '../common/api_url.dart';
-import '../common/restapi_status.dart';
+import '../../common/api_url.dart';
+import '../../common/restapi_status.dart';
+import 'package:http/http.dart' as http;
 
 class CompanyInfoRepository {
 
@@ -63,7 +62,7 @@ class CompanyInfoRepository {
     Uri url = Uri.parse(ApiURL.companyQuestionGetUrl);
     try {
       final response = await http.get(url,headers: RestApiStatus.headerMap);
-      print(' FAQ Question code:' + response.statusCode.toString());
+      print(' FAQ Question code:' + response.body.toString());
       return response;
     } on Exception catch (exception) {
       throw (exception);
@@ -71,11 +70,5 @@ class CompanyInfoRepository {
       throw Exception(error);
     }
   }
-
-
-
-
-
-
 
 }

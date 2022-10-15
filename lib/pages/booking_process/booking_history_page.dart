@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
-import '../../common/ctm_colors.dart';
 import '../../common/ctm_strings.dart';
-import '../../common/ctm_style.dart';
-import '../../common/theme_helper.dart';
 import '../../controllers/booking/booking_history_controller.dart';
 import '../../models/booking_history_model.dart';
+import 'package:get/get.dart';
+
+import '../../common/ctm_style.dart';
+import '../../common/theme_helper.dart';
 import 'booking_history_deatils_page.dart';
 
 class BookingHistoryPage extends StatefulWidget {
@@ -23,14 +22,8 @@ class _BookingHistoryPageState extends State<BookingHistoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: CtmColors.primaryColor,
-        title: Text(CtmStrings.bookingHistoryTitle),
-
-      ),
-      body:
-
-
-      Obx(() {
+        title: Text(CtmStrings.bookingHistoryTitle),),
+      body: Obx(() {
         if(_bookingHistoryController.isDataLoading.value){
           if (_bookingHistoryController.bookingHistoryList.length == 0) {
             return Center(child: Text(CtmStrings.bTicketsRNotAvi));
@@ -40,9 +33,7 @@ class _BookingHistoryPageState extends State<BookingHistoryPage> {
         } else{
           return Center(child: CircularProgressIndicator());
         }
-
       })
-
 
     );
   }
@@ -71,8 +62,12 @@ class _BookingHistoryPageState extends State<BookingHistoryPage> {
             elevation: 5,
             child: ListTile(
               leading: Icon(Icons.airplane_ticket_outlined),
-              title: Text(CtmStrings.bId+bookingInfo.bookingId.toString(),style: TextStyle(fontSize: 14),),
-              subtitle: Text(CtmStrings.bPaymentStatus+bookingInfo.paymentStatus.toString(),style: TextStyle(fontSize: 12)),
+              title: Text('Id :'+bookingInfo.bookingId.toString(),),
+              subtitle: Text(CtmStrings.bPaymentStatus+bookingInfo.paymentStatus.toString(),style: TextStyle(fontSize: 12,color:
+              bookingInfo.paymentStatus.toString()=='paid'?
+              Colors.green:Colors.red
+
+              )),
               trailing:
               bookingInfo.paymentStatus.toString()=='paid'?
               Icon(Icons.arrow_forward,size: 20): _unpaidPaymentOption()
@@ -87,7 +82,7 @@ class _BookingHistoryPageState extends State<BookingHistoryPage> {
     return   Container(
       decoration: ThemeHelper().buttonBoxDecoration(context),
       child: ElevatedButton(
-        style: ThemeHelper().buttonStyle(),
+        style: ThemeHelper().buttonStyle(context),
         child: Padding(
           padding: EdgeInsets.fromLTRB(5, 2, 5, 2),
           child: Row(
@@ -104,11 +99,11 @@ class _BookingHistoryPageState extends State<BookingHistoryPage> {
         ),
         onPressed: () {
            /// Payment Click
+          Get.toNamed('/StripePayment');
           print('Payment Here ');
         },
       ),
     );
   }
-
 
 }

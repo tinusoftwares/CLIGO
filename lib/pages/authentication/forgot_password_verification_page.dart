@@ -1,10 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import '../../common/ctm_colors.dart';
+import '../../common/theme_helper.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
 
-import '../../common/ctm_colors.dart';
-import '../../common/theme_helper.dart';
 import '../profile_settings/profile_page.dart';
 import '../widgets/ctm_header_widget.dart';
 
@@ -122,10 +122,9 @@ class _ForgotPasswordVerificationPageState extends State<ForgotPasswordVerificat
                             Container(
                               decoration: _pinSuccess ? ThemeHelper().buttonBoxDecoration(context):ThemeHelper().buttonBoxDecoration(context, "#AAAAAA","#757575"),
                               child: ElevatedButton(
-                                style: ThemeHelper().buttonStyle(),
+                                style: ThemeHelper().buttonStyle(context),
                                 child: Padding(
-                                  padding: const EdgeInsets.fromLTRB(
-                                      40, 10, 40, 10),
+                                  padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
                                   child: Text(
                                     "Verify".toUpperCase(),
                                     style: TextStyle(

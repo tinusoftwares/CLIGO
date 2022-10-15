@@ -1,18 +1,18 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import '../../common/ctm_alert_widget.dart';
 import '../../common/ctm_colors.dart';
 import '../../common/ctm_strings.dart';
 import '../../common/ctm_style.dart';
-import '../../common/theme_helper.dart';
 import '../../controllers/country_controller/CountryController.dart';
+import '../../local_db_sqflite/db_helper_local.dart';
+import '../../pages/booking_process/booking_now_page.dart';
+import '../../pages/widgets/ctm_drawer_widget.dart';
+import '../../pages/widgets/ctm_header_widget.dart';
+import 'package:get/get.dart';
+import '../../common/theme_helper.dart';
 import '../../controllers/trip/find_ticket_trip_controller.dart';
 import '../profile_settings/profile_page.dart';
-import '../widgets/ctm_drawer_widget.dart';
-import '../widgets/ctm_header_widget.dart';
-import 'booking_now_page.dart';
 
 class FindTicketPage extends StatefulWidget {
   @override
@@ -34,7 +34,7 @@ class _FindTicketPageState extends State<FindTicketPage> {
   String returnDateFormatText = 'mm-dd-yyyy';
   bool isCheckDrop = false;
   bool isPreviewDatNotAllow = true;
-  DropdownMenuItem dropdownMenuItem = const DropdownMenuItem(child: Text(''));
+  DropdownMenuItem dropdownMenuItem = DropdownMenuItem(child: Text(''));
 
   /// Return ticket Date Picker
   Future<void> _selectDateDepart(BuildContext context) async {
@@ -70,11 +70,7 @@ class _FindTicketPageState extends State<FindTicketPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(
-            "Bus 365 ",
-            style: TextStyle(color: CtmColors.appWhiteColor),
-          ),
-          elevation: 0.5,
+          title: Text(CtmStrings.appName.toString()),
           iconTheme: IconThemeData(color: CtmColors.appWhiteColor),
           flexibleSpace: Container(
             decoration: BoxDecoration(
@@ -83,13 +79,13 @@ class _FindTicketPageState extends State<FindTicketPage> {
                   end: Alignment.bottomRight,
                   colors: <Color>[
                     Theme.of(context).primaryColor,
-                    Theme.of(context).colorScheme.secondary,
+                    Theme.of(context).primaryColor,
                   ]),
             ),
           ),
           actions: [
             Container(
-              margin: const EdgeInsets.only(
+              margin: EdgeInsets.only(
                 top: 10,
                 right: 16,
               ),
@@ -97,20 +93,26 @@ class _FindTicketPageState extends State<FindTicketPage> {
                 children: <Widget>[
                   InkWell(
                     onTap: () {
-                      Get.to(ProfilePage());
+                      print(' click Token profile  >>>>>'+DBHelper01.getToken('token').toString());
+                      if (DBHelper01.getToken('token') != null) {
+                        Get.to(ProfilePage());
+                      } else {
+                        Get.toNamed('/login');
+                      }
                     },
                     child: Container(
-                      padding: const EdgeInsets.all(5),
+                      padding: EdgeInsets.all(5),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(40),
                         border: Border.all(
                             width: 0, color: CtmColors.appWhiteColor),
                         color: CtmColors.appWhiteColor,
-                        boxShadow: const [
+                        boxShadow: [
+
                           BoxShadow(
                             color: Colors.black12,
                             blurRadius: 50,
-                            offset: Offset(5, 5),
+                            offset: const Offset(5, 5),
                           ),
                         ],
                       ),
@@ -125,7 +127,7 @@ class _FindTicketPageState extends State<FindTicketPage> {
             )
           ],
         ),
-        drawer: const DrawerWidget(),
+        drawer: DrawerWidget(),
         body: _buildBooking());
   }
 
@@ -134,30 +136,30 @@ class _FindTicketPageState extends State<FindTicketPage> {
     return SingleChildScrollView(
       child: Stack(
         children: [
-          const SizedBox(
+          Container(
             height: 100,
             child: HeaderWidget(100, false, Icons.house_rounded),
           ),
           Container(
             alignment: Alignment.center,
-            margin: const EdgeInsets.fromLTRB(5, 10, 5, 5),
-            padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+            margin: EdgeInsets.fromLTRB(5, 10, 5, 5),
+            padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
             child: Column(
               children: [
-                const SizedBox(
+                SizedBox(
                   height: 100,
                 ),
                 Container(
                   alignment: Alignment.center,
-                  margin: const EdgeInsets.fromLTRB(5, 10, 5, 5),
-                  padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                  margin: EdgeInsets.fromLTRB(5, 10, 5, 5),
+                  padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
                   child: Column(
                     children: <Widget>[
                       Container(
                         padding: const EdgeInsets.only(left: 8.0, bottom: 4.0),
                         alignment: Alignment.topLeft,
-                        child: const Text(
-                          "Find your bus ticket",
+                        child: Text(
+                          "Find Your Ticket",
                           style: TextStyle(
                             color: Colors.black87,
                             fontWeight: FontWeight.w500,
@@ -174,18 +176,15 @@ class _FindTicketPageState extends State<FindTicketPage> {
                               Expanded(
                                 child: Container(
                                   alignment: Alignment.center,
-                                  padding:
-                                      const EdgeInsets.fromLTRB(1, 0, 1, 0),
-                                  margin: const EdgeInsets.fromLTRB(1, 0, 1, 0),
-                                  width: 190,
-                                  // height: 120,
+                                  padding: EdgeInsets.fromLTRB(1, 0, 1, 0),
+                                  margin: EdgeInsets.fromLTRB(1, 0, 1, 0),
                                   child: Card(
                                     elevation: 2,
                                     child: ListTile(
                                       dense: true,
                                       isThreeLine: true,
                                       //    leading: Icon(Icons.email),
-                                      title: const Text(
+                                      title: Text(
                                         "Form",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
@@ -197,19 +196,17 @@ class _FindTicketPageState extends State<FindTicketPage> {
                                   ),
                                 ),
                               ),
+
                               Expanded(
                                 child: Container(
                                   alignment: Alignment.center,
-                                  padding:
-                                      const EdgeInsets.fromLTRB(1, 0, 1, 0),
-                                  width: 180,
-                                  height: 100,
+                                  padding: EdgeInsets.fromLTRB(1, 0, 1, 0),
                                   child: Card(
                                     elevation: 2,
                                     child: ListTile(
                                       dense: true,
                                       isThreeLine: true,
-                                      title: const Text(
+                                      title: Text(
                                         "To",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
@@ -223,39 +220,36 @@ class _FindTicketPageState extends State<FindTicketPage> {
                             ],
                           ),
                           Positioned(
-                              top: 30,
-                              left: Platform.isAndroid ? 175 : 160,
+                              top: 20,
+                              left: MediaQuery.of(context).size.width/2.5,
                               child: CircleAvatar(
-                                backgroundColor: Colors.green,
-                                radius: 15,
+                                backgroundColor: Theme.of(context).primaryColor,
+                                radius: 17,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: const [
+                                  children: [
                                     Icon(
                                       Icons.arrow_forward,
-                                      size: 12,
+                                      size: 14,
                                     ),
                                     Icon(
                                       Icons.arrow_back,
-                                      size: 12,
+                                      size: 14,
                                     ),
                                   ],
                                 ),
                               ))
                         ],
                       ),
-                      const SizedBox(
+                      SizedBox(
                         height: 10,
                       ),
                       InkWell(
                         onTap: () {
                           print(selectedDateReturn);
-
                           setState(() {
-                            if (selectedDateDepart
-                                    .compareTo(selectedDateReturn) >
-                                0) {
+                            if (selectedDateDepart.compareTo(selectedDateReturn) > 0) {
                               isPreviewDatNotAllow = false;
                               print("DT1 is after DT2");
                             }
@@ -269,25 +263,24 @@ class _FindTicketPageState extends State<FindTicketPage> {
                               Icons.calendar_month,
                               color: Theme.of(context).primaryColor,
                             ),
-                            title: const Text("Departure"),
+                            title: Text("Departure"),
                             subtitle: Text(
                                 selectedDateDepart.toString().substring(0, 10)),
                           ),
                         ),
                       ),
-                      const SizedBox(
+                      SizedBox(
                         height: 10,
                       ),
                       InkWell(
                         onTap: () {
                           /// Click Date
-                          print(
-                              'Current Date : ${selectedDateReturn.toIso8601String()}');
+                          print('Current Date : ' + selectedDateReturn.toIso8601String());
                           var day = selectedDateReturn.day;
                           var month = selectedDateReturn.month;
                           var year = selectedDateReturn.year;
                           var currentDate = day + month + year;
-                          print('currentDate$currentDate');
+                          print('currentDate' + currentDate.toString());
                           _selectDateReturn(context);
                         },
                         child: Card(
@@ -297,12 +290,12 @@ class _FindTicketPageState extends State<FindTicketPage> {
                               Icons.calendar_month,
                               color: Theme.of(context).primaryColor,
                             ),
-                            title: const Text("Return(Optional)"),
+                            title: Text("Return(Optional)"),
                             subtitle: Text(returnDateFormatText),
                           ),
                         ),
                       ),
-                      const SizedBox(
+                      SizedBox(
                         height: 50,
                       ),
                       _buildFindTicketBtn(),
@@ -324,18 +317,18 @@ class _FindTicketPageState extends State<FindTicketPage> {
         isExpanded: true,
         isDense: true,
         value: countryIdForm,
-        hint: const Text(
+        hint: Text(
           "Select Area",
         ),
         items: countryController.countryWiseAreaLocationList.map((country) {
           return DropdownMenuItem(
-            value: country.id,
             child: Text(
               country.name.toString(),
               maxLines: 1,
               overflow: TextOverflow.clip,
-              style: const TextStyle(fontSize: 12),
+              style: TextStyle(fontSize: 12),
             ),
+            value: country.id,
           );
         }).toList(),
         onChanged: (String? countryFormId) {
@@ -354,16 +347,16 @@ class _FindTicketPageState extends State<FindTicketPage> {
         isDense: true,
         isExpanded: true,
         value: countryIdTo,
-        hint: const Text(
+        hint: Text(
           "Select Area",
         ),
         items: countryController.countryWiseAreaLocationList.map((country) {
           return DropdownMenuItem(
-            value: country.id,
             child: Text(
               country.name.toString(),
-              style: const TextStyle(fontSize: 12),
+              style: TextStyle(fontSize: 12),
             ),
+            value: country.id,
           );
         }).toList(),
         onChanged: (String? countryToId) {
@@ -380,9 +373,9 @@ class _FindTicketPageState extends State<FindTicketPage> {
     return Container(
       decoration: ThemeHelper().buttonBoxDecoration(context),
       child: ElevatedButton(
-        style: ThemeHelper().buttonStyle(),
+        style: ThemeHelper().buttonStyle(context),
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
+          padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -392,12 +385,10 @@ class _FindTicketPageState extends State<FindTicketPage> {
                 size: 30,
                 color: CtmColors.appWhiteColor,
               ),
-              const SizedBox(
+              SizedBox(
                 width: 10,
               ),
-              Text(
-                'Find Tickets',
-                style: ctmPaymentBtnTxtStyle,
+              Text('Find Tickets', style: ctmPaymentBtnTxtStyle,
               ),
             ],
           ),
@@ -409,19 +400,22 @@ class _FindTicketPageState extends State<FindTicketPage> {
             "journeydate": selectedDateDepart.toString(),
           };
 
-          print('fTicketBodyMap: $findTicketsMapBody');
+          print('fTicketBodyMap: ' + findTicketsMapBody.toString());
 
           if (countryIdForm != null && countryIdTo != null) {
             if (isPreviewDatNotAllow) {
               ///done
               findTicketTripController.findTicketsTripCTR(findTicketsMapBody);
-              Get.to(BookingNowPage(
-                  journeyDate: selectedDateDepart.toString().substring(0, 10)));
-            } else {
+              Get.to(BookingNowPage(journeyDate: selectedDateDepart.toString().substring(0, 10)));
+
+            }
+            else {
+
               CtmAlertDialog.fieldAlertDialog(
                   CtmStrings.fieldAlert, CtmStrings.dateNotAllow);
             }
-          } else {
+          }
+          else {
             CtmAlertDialog.fieldAlertDialog(
                 CtmStrings.fieldAlert, CtmStrings.plzSelectLocation);
           }

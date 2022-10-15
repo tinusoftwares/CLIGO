@@ -4,9 +4,8 @@ This function is used to add beautiful shimmer loading to the pages
  */
 
 import 'package:flutter/material.dart';
+import '../../common/ctm_colors.dart';
 import 'package:shimmer/shimmer.dart';
-
-import 'ctm_colors.dart';
 
 double _containerHeight = 20;
 double _spaceHeight = 10;
@@ -100,7 +99,7 @@ class ShimmerLoading{
                                   color: _shimmerColor,
                                 ),
                                 height: _containerHeight,
-                                width: 100,
+                                width: MediaQuery.of(context).size.width/4, //100,
                                 child: Container(
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.only(
@@ -164,7 +163,7 @@ class ShimmerLoading{
   Widget buildShimmerBookingTicketsLV(boxImageSize) {
     return SafeArea(
       child: ListView.builder(
-        itemCount: 3,
+        itemCount: 2,
         padding: EdgeInsets.only(left: 12, right: 12),
         scrollDirection: Axis.vertical,
         itemBuilder: (BuildContext context, int index) {

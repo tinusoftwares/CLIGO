@@ -2,16 +2,18 @@ import 'dart:convert';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import '../../common/ctm_alert_widget.dart';
 import '../../common/ctm_colors.dart';
 import '../../common/ctm_strings.dart';
 import '../../common/ctm_style.dart';
 import '../../common/theme_helper.dart';
-import '../../controllers/country_controller/CountryController.dart';
+import '../../pages/authentication/login_page.dart';
+import '../../pages/widgets/ctm_header_widget.dart';
 import '../../repository/auth_repository.dart';
+import 'package:get/get.dart';
+import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart';
+import '../../controllers/country_controller/CountryController.dart';
 import '../company_info/terms_condition_page.dart';
-import '../widgets/ctm_header_widget.dart';
-import 'login_page.dart';
 
 class RegistrationPage extends StatefulWidget {
   @override
@@ -41,12 +43,27 @@ class _RegistrationPageState extends State<RegistrationPage> {
   String rePassword = '';
   String firstName = '';
   String lastName = '';
-  String idType = '1';
+  String idType = '2';
   String idNumber = '';
-  String countryId = "1";
-
+  String countryId = "99";
+  late  ProgressDialog pr;
   @override
   Widget build(BuildContext context) {
+    pr=ProgressDialog(context);
+    pr.style(
+        message: 'Loading ...',
+        borderRadius: 10.0,
+        backgroundColor: Colors.white,
+        progressWidget: CircularProgressIndicator(),
+        elevation: 10.0,
+        insetAnimCurve: Curves.easeInOut,
+        progress: 0.0,
+        maxProgress: 100.0,
+        progressTextStyle: TextStyle(
+            color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w400),
+        messageTextStyle: TextStyle(
+            color: Colors.black, fontSize: 19.0, fontWeight: FontWeight.w600)
+    );
     return Scaffold(
       backgroundColor:
       CtmColors.appBgColor,
@@ -262,27 +279,36 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 children: <Widget>[
                   Row(
                     children: <Widget>[
-                      Checkbox(
-                          value: checkboxValue,
-                          onChanged: (value) {
-                            setState(() {
-                              checkboxValue = value!;
-                              state.didChange(value);
-                            });
-                          }),
-                      Text(
-                        CtmStrings.regIAcceptTermsConditions,
-                        style: TextStyle(color: Colors.grey),
+                      Expanded(
+                        child: Checkbox(
+                            value: checkboxValue,
+                            onChanged: (value) {
+                              setState(() {
+                                checkboxValue = value!;
+                                state.didChange(value);
+                              });
+                            }),
                       ),
-                      InkWell(
-                        onTap: () {
-                           Get.to(TermsAndConditionPage());
-                        },
+
+                      Expanded(
+                        flex:2,
                         child: Text(
-                          " On Tap",
-                          style: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                              fontStyle: FontStyle.italic),
+                          CtmStrings.regIAcceptTermsConditions,
+                          style: TextStyle(color: Colors.grey,fontSize: 12),
+                        ),
+                      ),
+
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                             Get.to(TermsAndConditionPage());
+                          },
+                          child: Text(
+                            " On Tap",
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                                fontStyle: FontStyle.italic),
+                          ),
                         ),
                       ),
                     ],
@@ -366,7 +392,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   _docTpe() {
     return Obx(() {
-
       return DropdownButton(
         underline: SizedBox(),
         isDense: true,
@@ -395,7 +420,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
     return Container(
       decoration: ThemeHelper().buttonBoxDecoration(context),
       child: ElevatedButton(
-        style: ThemeHelper().buttonStyle(),
+        style: ThemeHelper().buttonStyle(context),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
           child: Text(CtmStrings.register.toUpperCase(),
@@ -425,7 +450,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               "id_number": idNumber,
               "country_id": countryId,
             };
-
+            pr.show();
             AuthRepository().registerRep(regBodyMap).then((value) {
 
               var bodyMap = json.decode(value.body);
@@ -438,13 +463,24 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       print(bodyMap['data']);
                       var regData = bodyMap['data'];
                       print('Register Success :' + regData.toString());
-                        Get.offAllNamed('/login');
+                      pr.hide();
+                      CtmAlertDialog.successAlertDialog('Register : ', 'Successful');
+                      Get.offAllNamed('/login');
                     }
                   }
+                  CtmAlertDialog.apiServerErrorAlertDialog('Alert  :', '');
+                  pr.hide();
+                }else{
+                  CtmAlertDialog.apiServerErrorAlertDialog('Server :', 'Error');
+                  pr.hide();
                 }
               } else {
-                print(' else error ');
+                CtmAlertDialog.apiServerErrorAlertDialog('Server :',bodyMap['error'] );
+                pr.hide();
               }
+            }).onError((error, stackTrace) {
+              CtmAlertDialog.apiServerErrorAlertDialog('Server :', error.toString());
+              pr.hide();
             });
           }
         },

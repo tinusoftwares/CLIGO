@@ -1,11 +1,14 @@
 
 import 'package:flutter/material.dart';
+import '../../common/ctm_colors.dart';
+import '../../controllers/country_controller/CountryController.dart';
+import '../../pages/widgets/booking_now_card_widget.dart';
+import '../../pages/widgets/ctm_drawer_widget.dart';
+import '../../pages/widgets/ctm_header_widget.dart';
 import 'package:get/get.dart';
 
-import '../../common/ctm_colors.dart';
 import '../../common/theme_helper.dart';
 
-import '../../controllers/country_controller/CountryController.dart';
 import '../profile_settings/profile_page.dart';
 import '../widgets/ctm_review_card_widget.dart';
 
@@ -71,7 +74,7 @@ class _ReviewsState extends State<Reviews>{
                       ListView.builder(
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount:5,
+                          itemCount:1,
                           itemBuilder: (context,index){
                             return  CtmReviewCardWidget();
 

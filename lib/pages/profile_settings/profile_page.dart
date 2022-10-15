@@ -1,17 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
-
 import '../../common/ctm_colors.dart';
 import '../../controllers/profile/profile_controller.dart';
 import '../../models/profile_info_model.dart';
+import '../../pages/authentication/login_page.dart';
+import '../../pages/splash_screen.dart';
+import '../../pages/widgets/ctm_drawer_widget.dart';
+import '../../pages/widgets/ctm_header_widget.dart';
+import 'package:get/get.dart';
+
 import '../authentication/forgot_password_page.dart';
 import '../authentication/forgot_password_verification_page.dart';
 import '../authentication/registration_page.dart';
 import '../booking_process/booking_now_page.dart';
-import '../widgets/ctm_drawer_widget.dart';
-import '../widgets/ctm_header_widget.dart';
 
 class ProfilePage extends StatefulWidget {
   @override

@@ -1,9 +1,8 @@
 import 'dart:convert';
-import 'package:get/get.dart';
-
 import '../../common/ctm_alert_widget.dart';
 import '../../models/booking_history_model.dart';
 import '../../repository/booking_repository.dart';
+import 'package:get/get.dart';
 
 class BookingHistoryController extends GetConnect {
 
@@ -22,10 +21,8 @@ class BookingHistoryController extends GetConnect {
   bookingHistoryCTR() {
     BookingRepository().bookingTicketHistoryRep().then((resValue) async {
       var bodyMap = json.decode(resValue.body);
+      print(' Booking history response  : ' + bodyMap.toString());
 
-      var resCode = resValue.statusCode;
-      print(' Booking history status  : ' + bodyMap['status'].toString());
-      if (resCode == 200 || resCode == 201 || resCode == 202) {
         if (bodyMap['status'] == "success") {
           if (bodyMap['response'] == 200) {
             if (bodyMap['data'] != null) {
@@ -38,9 +35,8 @@ class BookingHistoryController extends GetConnect {
               isDataLoading.value=true;
             }
           }
-        }
       } else {
-        print(' else error ');
+          CtmAlertDialog.apiServerErrorAlertDialog('Server Error :','');
       }
     }).onError((error, stackTrace) {
       print('Error :' + error.toString());
@@ -48,5 +44,4 @@ class BookingHistoryController extends GetConnect {
       CtmAlertDialog.apiServerErrorAlertDialog('Server Error :',error.toString());
     });
   }
-
 }

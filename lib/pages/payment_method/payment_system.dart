@@ -1,23 +1,26 @@
 import 'dart:convert';
-
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bus/pages/payment_method/pay_pal_payment.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
-import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:flutter_paystack/flutter_paystack.dart';
+import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart';
+import '../../common/ctm_alert_widget.dart';
 import '../../common/ctm_colors.dart';
 import '../../common/ctm_strings.dart';
 import '../../common/ctm_style.dart';
+import '../../controllers/trip/stand_dropping_borading_controller.dart';
+import '../../pages/payment_method/pay_pal_payment.dart';
+import '../../pages/success_page/success_page.dart';
+import '../../repository/booking_repository.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import '../../common/theme_helper.dart';
 import '../../controllers/country_controller/CountryController.dart';
 import '../../controllers/profile/profile_controller.dart';
-import '../../controllers/trip/stand_dropping_borading_controller.dart';
 import '../../models/find_tickets_trip_list_model.dart';
 import '../../models/profile_info_model.dart';
-import '../../repository/booking_repository.dart';
 import '../profile_settings/profile_page.dart';
-import '../success_page/success_page.dart';
 import '../widgets/ctm_textWith_key_value_icon_rowline_widget.dart';
 
 class PaymentSystemPage extends StatefulWidget {
@@ -116,11 +119,17 @@ class _PaymentSystemPageState extends State<PaymentSystemPage> {
   double discount = 0.0;
   double tax = 0.0;
   Map<String, dynamic> bookingPayLaterMapBody = {};
+  late  ProgressDialog pr;
+
+  ///----------- online payment system -----------------
+  String publicKeyTest = 'pk_test_328da55755b88b1aaed96c5cda215b2fd887edb9'; //pass in the public test key obtained from paystack dashboard here
+  final plugin = PaystackPlugin();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    plugin.initialize(publicKey: publicKeyTest);
     profileController.onInit();
     _razorpay = Razorpay();
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handleRazorPaymentSuccess);
@@ -132,6 +141,22 @@ class _PaymentSystemPageState extends State<PaymentSystemPage> {
 
   @override
   Widget build(BuildContext context) {
+    pr=ProgressDialog(context);
+    pr.style(
+        message: 'Loading ...',
+        borderRadius: 10.0,
+        backgroundColor: Colors.white,
+        progressWidget: CircularProgressIndicator(),
+        elevation: 10.0,
+        insetAnimCurve: Curves.easeInOut,
+        progress: 0.0,
+        maxProgress: 100.0,
+        progressTextStyle: TextStyle(
+            color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w400),
+        messageTextStyle: TextStyle(
+            color: Colors.black, fontSize: 19.0, fontWeight: FontWeight.w600)
+    );
+
     print('aseat Value :' + widget.bookingInfoBodyMap['aseat'].toString());
     adultSeat = widget.bookingInfoBodyMap['aseat'];
     print('cseat Value :' + widget.bookingInfoBodyMap['cseat'].toString());
@@ -616,7 +641,7 @@ class _PaymentSystemPageState extends State<PaymentSystemPage> {
                 child: Container(
                   decoration: ThemeHelper().buttonBoxDecoration(context),
                   child: ElevatedButton(
-                    style: ThemeHelper().buttonStyle(),
+                    style: ThemeHelper().buttonStyle(context),
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                       child: Text(
@@ -719,7 +744,7 @@ class _PaymentSystemPageState extends State<PaymentSystemPage> {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(
+                  /*Expanded(
                     child: Card(
                       elevation: 2,
                       child: Row(
@@ -739,7 +764,7 @@ class _PaymentSystemPageState extends State<PaymentSystemPage> {
                         ],
                       ),
                     ),
-                  ),
+                  ),*/
                   Expanded(
                     child: Card(
                       elevation: 2,
@@ -761,9 +786,51 @@ class _PaymentSystemPageState extends State<PaymentSystemPage> {
                       ),
                     ),
                   ),
+                  Expanded(
+                    child: Card(
+                      elevation: 2,
+                      child: Row(
+                        children: [
+                          Radio(
+                            value: 3,
+                            groupValue: _subRadioSelected,
+                            activeColor: Theme.of(context).primaryColor,
+                            onChanged: (value) {
+                              setState(() {
+                                _subRadioSelected = int.parse(value.toString());
+                                _radioVal = 'stripe';
+                              });
+                            },
+                          ),
+                          Text('stripe'),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Card(
+                      elevation: 2,
+                      child: Row(
+                        children: [
+                          Radio(
+                            value: 4,
+                            groupValue: _subRadioSelected,
+                            activeColor: Theme.of(context).primaryColor,
+                            onChanged: (value) {
+                              setState(() {
+                                _subRadioSelected = int.parse(value.toString());
+                                _radioVal = 'razorpay';
+                              });
+                            },
+                          ),
+                          Text('razorpay'),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
-              Row(
+             /* Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -810,7 +877,7 @@ class _PaymentSystemPageState extends State<PaymentSystemPage> {
                     ),
                   ),
                 ],
-              ),
+              ),*/
             ],
           )
         : Container();
@@ -821,7 +888,7 @@ class _PaymentSystemPageState extends State<PaymentSystemPage> {
     return InkWell(
       onTap: () {
         print('Click PayPal');
-            // Get.to(PaypalPayment(onFinish: (){},));
+            Get.to(PaypalPayment(onFinish: (){},));
       },
       child: Container(
         color: Theme.of(context).primaryColor,
@@ -839,7 +906,7 @@ class _PaymentSystemPageState extends State<PaymentSystemPage> {
     return InkWell(
       onTap: () {
         print('Click Pay Stack ');
-       // Get.to(PayStackPage());
+        chargeCard();
       },
       child: Container(
         color: Theme.of(context).primaryColor,
@@ -852,10 +919,53 @@ class _PaymentSystemPageState extends State<PaymentSystemPage> {
     );
   }
 
+  //--------------------- Pay Stack----------------
+
+  //a method to show the message
+  void _showMessage(String message) {
+    final snackBar = SnackBar(content: Text(message));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  //used to generate a unique reference for payment
+  String _getReference() {
+    var platform = (Platform.isIOS) ? 'iOS' : 'Android';
+    final thisDate = DateTime.now().millisecondsSinceEpoch;
+    return 'ChargedFrom${platform}_$thisDate';
+  }
+
+  //async method to charge users card and return a response
+  chargeCard() async {
+    var charge = Charge()
+      ..amount = 10000 * 100
+      ..reference = _getReference()
+      ..putCustomField('custom_id', '846gey6w') //to pass extra parameters to be retrieved on the response from Paystack
+      ..email = 'tutorial@email.com';
+
+    CheckoutResponse response = await plugin.checkout(
+      context,
+      method: CheckoutMethod.card,
+      charge: charge,
+    );
+
+    //check if the response is true or not
+    if (response.status == true) {
+      //you can send some data from the response to an API or use webhook to record the payment on a database
+      _showMessage('Payment was successful!!!');
+    } else {
+      //the payment wasn't successsful or the user cancelled the payment
+      _showMessage('Payment Failed!!!');
+    }
+  }
+
+
+  //----------------------------------
+
   /// payment -03
   _stripeRadioPayment() {
     return InkWell(
       onTap: () {
+        Get.toNamed('/StripePayment');
         print('Click stripe ');
       },
       child: Container(
@@ -865,6 +975,8 @@ class _PaymentSystemPageState extends State<PaymentSystemPage> {
           child: Center(child: Text('Strip', style: ctmPaymentBtnTxtStyle))),
     );
   }
+
+  //--------------- Stribe payment ------------
 
   /// payment -04
   _razorPayRadioPayment() {
@@ -927,9 +1039,11 @@ class _PaymentSystemPageState extends State<PaymentSystemPage> {
 
   ///----------------- Part Six  Button Action ---------------------------
   _buildPaymentButtonNavigation() {
-    if (_radioSelected == 1 && _subRadioSelected == 1) {
+   /* if (_radioSelected == 1 && _subRadioSelected == 1) {
       return _payPalRadioPayment();
-    } else if (_radioSelected == 1 && _subRadioSelected == 2) {
+    } else
+  */
+      if (_radioSelected == 1 && _subRadioSelected == 2) {
       return _payStackRadioPayment();
     } else if (_radioSelected == 1 && _subRadioSelected == 3) {
       return _stripeRadioPayment();
@@ -939,7 +1053,7 @@ class _PaymentSystemPageState extends State<PaymentSystemPage> {
       return Container(
         decoration: ThemeHelper().buttonBoxDecoration(context),
         child: ElevatedButton(
-          style: ThemeHelper().buttonStyle(),
+          style: ThemeHelper().buttonStyle(context),
           child: Padding(
             padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
             child: Row(
@@ -961,11 +1075,12 @@ class _PaymentSystemPageState extends State<PaymentSystemPage> {
             ),
           ),
           onPressed: () {
-            if (pickStand == '' && dropStand == '') {
-              Get.snackbar(
-                  'Alert', 'Please Select your pick point and drop point',
-                  backgroundColor: CtmColors.appWhiteColor, colorText:CtmColors.appRedColor);
+
+            if (pickStand == null && dropStand == null) {
+             CtmAlertDialog.fieldAlertDialog('Alert', 'Please Select your pick point and drop point');
+
             } else {
+              pr.show();
               bookingPayLaterMapBody = {
                 'login_email': passengerEmail,
                 'login_mobile': passengerMobile,
@@ -1001,26 +1116,36 @@ class _PaymentSystemPageState extends State<PaymentSystemPage> {
                 'partialpay': '0',
               };
 
-              //print('bookingPayLaterMapBody :' + jsonEncode(bookingPayLaterMapBody));
-            }
+              print('bookingPayLaterMapBody :' + jsonEncode(bookingPayLaterMapBody));
 
             if (_radioSelected == 1) {
               print("paid  Payment ");
 
-              // BookingRepository().creteTicketBookingRep(bookingPayLaterMapBody);
-              //Get.toNamed('/pay_later_payment_system');
+              pr.hide();
+              CtmAlertDialog.successAlertDialog('', 'Booking has successful');
+
             } else {
+
               print("due Payment ");
               BookingRepository()
                   .creteTicketBookingUnpaidRep(bookingPayLaterMapBody)
                   .then((value) {
-                Get.to(SuccessFulPage());
+                pr.hide();
+                CtmAlertDialog.successAlertDialog('', 'Booking has successful');
+                Get.offAll(SuccessFulPage());
+              }).onError((error, stackTrace) {
+                pr.hide();
+                CtmAlertDialog.apiServerErrorAlertDialog('Alert', error.toString());
               });
+            }
             }
           },
         ),
       );
     }
   }
+
+
+
 
 }

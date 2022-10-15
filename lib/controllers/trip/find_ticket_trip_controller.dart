@@ -1,15 +1,18 @@
 import 'dart:convert';
-import 'package:get/get.dart';
 
+
+import '../../common/ctm_alert_widget.dart';
 import '../../models/find_tickets_trip_list_model.dart';
 import '../../repository/booking_repository.dart';
-//01740303508 Sakib vai
+import 'package:get/get.dart';
 
 class FindTicketTripController extends GetConnect {
 
   ///find Tickets  init 01
   RxList<FindTicketListModel> findTicketsList = List<FindTicketListModel>.empty(growable: true).obs;
   RxBool isDataLoading = false.obs;
+  RxBool isDataEmpty = false.obs;
+  RxString msg= 'no data found!'.obs;
 
    findTicketsTripCTR(Map<String, dynamic> findTicketMapBody) {
 
@@ -17,35 +20,35 @@ class FindTicketTripController extends GetConnect {
       findTicketsList.clear();
       isDataLoading.value=false;
       var bodyMap = json.decode(resValue.body);
-     // print('find tickets trip bodyMap ' + bodyMap.toString());
-      var resCode = resValue.statusCode;
-      print('trip status  : ' + bodyMap['status'].toString());
-      //print('trip res Code : ' + bodyMap['response'].toString());
 
-      if (resCode == 200 || resCode == 201 || resCode == 202) {
+      print('trip code  : ' + bodyMap['status'].toString());
+     // print('trip code body   : ' + bodyMap.toString());
+      print('trip res  : ' + bodyMap['response'].toString());
+
         if (bodyMap['status'] == "success") {
+
           if (bodyMap['response'] == 200) {
+
             if (bodyMap['data'] != null) {
               print(bodyMap['data']);
-
               for(var fTList in bodyMap['data']){
                 findTicketsList.add(FindTicketListModel.fromJson(fTList));
               }
-              print(' find tickets  name :'+findTicketsList[0].tripId.toString());
-              print('lng tickets :'+findTicketsList.length.toString());
-
               isDataLoading.value=true;
             }
           }
         }
-      } else {
-        print(' else error ');
+        else{
+          isDataEmpty.value=true;
+          Get.back();
+          msg.value=bodyMap['message'];
+          CtmAlertDialog.apiServerErrorAlertDialog('Alert', msg.toString());
       }
+
     }).onError((error, stackTrace) {
-      print('Error :' + error.toString());
-      print('stackTrace :' + stackTrace.toString());
+      CtmAlertDialog.apiServerErrorAlertDialog('Error', 'Server');
+      Get.back();
     });
-
   }
-
 }
+
